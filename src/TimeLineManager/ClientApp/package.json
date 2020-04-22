@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "echo 'test..' && ng serve",
     "build": "ng build",
     "build:ssr": "ng run TimeLineManager:server:dev",
     "test": "ng test",
