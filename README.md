@@ -18,6 +18,15 @@ Install Environment Development:
 	dotnet run
 ```
 
+## Create Component
+
+using the following commands:
+
+```
+	ng g c post/timeline-link-popup --style=scss --skip-import --skip-tests
+
+```
+
 ## NEW ISSUES:
 
 Please contact to me:

@@ -1,4 +1,4 @@
-import { Injectable, Inject, Injector, inject } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import {
   HttpClient,
   HttpHeaders,
@@ -6,15 +6,14 @@ import {
   HttpParams
 } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { Type } from '@angular/compiler/src/core';
 
 @Injectable()
 export class HttpApiService {
   private httpHeaders = new HttpHeaders();
   private httpOptions = {};
-  private baseUrl: string;
   constructor(
-    private injector: Injector,
+    @Inject('BASE_URL')
+    private baseUrl: string,
     private httpClient: HttpClient) {
     this.httpOptions = {
       headers: new HttpHeaders({
@@ -24,7 +23,6 @@ export class HttpApiService {
       })
     };
     this.httpHeaders = new HttpHeaders(this.httpOptions);
-    this.baseUrl = this.injector.get('BASE_URL');
   }
   get(uri: string, params?: HttpParams) {
     uri = this.baseUrl + uri;

@@ -2,27 +2,50 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date-struct';
-import { NgbDate, NgbCalendar, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
-
+import { NgbCalendar, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
+import { Post, PostStatus, PostType } from '../domain/api-models/post-response';
+import { toTimestampFromDate } from '../core/base/helpers';
+import { NgForm } from '@angular/forms';
+interface PostModel {
+  isPublishNow: number;
+  publishDate?: string;
+  publishTime?: string;
+  postStatus?: string;
+  postType?: string;
+  postData?: any;
+}
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
-  styleUrls: ['./post.component.css']
+  styleUrls: ['./post.component.scss']
 })
 export class PostComponent implements OnInit, OnDestroy {
-  publishDateModel: string;
+  postTimeLineModel: Post = {
+    id: 0,
+    status: PostStatus.DRAFTED,
+    type: PostType.IMAGE,
+    createdAt: toTimestampFromDate(new Date()),
+    updatedAt: toTimestampFromDate(new Date())
+  };
+
+  postModel: PostModel = {
+    isPublishNow: 1
+  };
+
+  btnSaveDraft = 'Save draft';
+  btnSubmit = 'Publish';
+
   private unsubcribe$ = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
     private ngbCalendar: NgbCalendar,
     private dateAdapter: NgbDateAdapter<string>) {
-    this.publishDateModel = this.today;
+      this.postModel.publishDate = this.today;
   }
 
   get today() {
-    return this.dateAdapter.toModel(this.ngbCalendar.getToday())!;
+    return this.dateAdapter.toModel(this.ngbCalendar.getToday());
   }
 
   ngOnInit() {
@@ -38,6 +61,24 @@ export class PostComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unsubcribe$.next();
     this.unsubcribe$.complete();
+  }
+
+  onSubmit(f: NgForm) {
+    this.postModel.postStatus = PostStatus.PUBLISHED;
+    console.log(this.postModel);
+    // mapTo
+
+    // call api
+  }
+
+  onSaveDraft(f: NgForm) {
+    if (f.form.valid) {
+      this.postModel.postStatus = PostStatus.DRAFTED;
+      console.log(this.postModel);
+    }
+    // mapTo
+
+    // call api
   }
 
 }

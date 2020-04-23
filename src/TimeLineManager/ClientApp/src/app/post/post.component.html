@@ -1,19 +1,71 @@
-<form class="form-inline">
+<form
+  class="form-container frm_post"
+  name="frm_post"
+  (ngSubmit)="f.form.valid && onSubmit(f)"
+  #f="ngForm"
+  novalidate
+>
   <div class="form-group">
-    <div class="input-group">
-      <input class="form-control" placeholder="mm/dd/yyyy"
-             name="publishDate" #publishDate="ngModel" [(ngModel)]="publishDateModel" ngbDatepicker #d="ngbDatepicker">
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-          <i class="fa fa-calendar" aria-hidden="true"></i>
-        </button>
+    <h3>Timeline post</h3>
+  </div>
+  <hr class="mb-5" />
+  <div class="form-row">
+    <div class="form-group col">
+      <button type="button" class="btn btn-secondary" (click)="onSaveDraft(f)">
+        {{ btnSaveDraft }}
+      </button>
+    </div>
+    <div class="form-group col text-right">
+      <button type="submit" class="btn btn-success">{{ postModel.isPublishNow === 1 ? btnSubmit : 'Schedule' }}</button>
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="form-row">
+    <div class="form-group col-md-2">
+      <label class="text-right">Publish date:</label>
+    </div>
+    <div class="form-group col-md-10">
+      <div class="form-group">
+        <label><input type="radio" name="isPublishNow" [value]="1" [(ngModel)]="postModel.isPublishNow" />&nbsp;Publish now</label>
+      </div>
+      <div class="form-group form-inline">
+        <div class="input-group">
+        <label><input type="radio" name="isPublishNow" [value]="2" [(ngModel)]="postModel.isPublishNow" />&nbsp;</label>
+        </div>
+        <div class="input-group">
+          <!-- https://stackoverflow.com/questions/45256076/angular-2-attr-disabled-is-not-working-for-div-when-i-try-to-iterate-ngfor-loop -->
+          <input
+            [attr.disabled]="postModel.isPublishNow === 1 ? 'disabled' : null"
+            [disabled]="postModel.isPublishNow === 1"
+            class="form-control"
+            placeholder="mm/dd/yyyy"
+            name="publishDate"
+            #publishDate="ngModel"
+            [(ngModel)]="postModel.publishDate"
+            ngbDatepicker
+            #d="ngbDatepicker"
+          />
+          <div class="input-group-append">
+            <button
+              class="btn btn-outline-secondary"
+              [attr.disabled]="postModel.isPublishNow === 1 ? 'disabled' : null"
+              (click)="postModel.isPublishNow === 1 ? null : d.toggle()"
+              type="button"
+            >
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+
+  <hr />
 </form>
 
 <pre>
-{{ publishDateModel | json }}
-
-{{ publishDate.status }}
+  {{ postModel | json }}
+  {{ postTimeLineModel | json }}
 </pre>

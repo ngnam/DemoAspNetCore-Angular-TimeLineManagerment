@@ -1,20 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { PostComponent } from './post/post.component';
 import { GlobalErrorComponent } from './core/exceptions/global-error.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, pathMatch: 'full' },
-  { path: 'post', component: PostComponent },
-  { path: 'post/:id/edit', component: PostComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'post', loadChildren: () => import('./post/post.module').then(m => m.PostModule)},
   {
     path: 'error',
     component: GlobalErrorComponent
   },
   {
+    path: '',
+    redirectTo: '/post',
+    pathMatch: 'full'
+  },
+  {
     path: '**',
-    redirectTo: ''
+    redirectTo: '/post',
   }
 ];
 @NgModule({
@@ -25,4 +28,4 @@ const routes: Routes = [
     RouterModule
   ]
 })
-export class AppRoutingModule { } 
+export class AppRoutingModule { }

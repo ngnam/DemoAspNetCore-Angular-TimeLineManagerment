@@ -1,0 +1,14 @@
+:host {
+  .form-container {
+      label {
+          font-weight: 600;
+      }
+
+      .disabled {
+        cursor: not-allowed;
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+      }
+  }
+}
