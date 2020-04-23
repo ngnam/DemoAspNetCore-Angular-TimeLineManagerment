@@ -21,6 +21,7 @@ import { CustomAdapter, CustomDateParserFormatter } from './adapters/datepicker.
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    // Add thirt party librarys
     NgbDatepickerModule,
     NgbTimepickerModule
   ],
