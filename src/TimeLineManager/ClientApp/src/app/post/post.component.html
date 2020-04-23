@@ -1,1 +1,17 @@
-<p>post works!</p>
+<form class="form-inline">
+  <div class="form-group">
+    <div class="input-group">
+      <input class="form-control" placeholder="mm/dd/yyyy"
+             name="publishDate" #publishDate="ngModel" [(ngModel)]="publishDateModel" ngbDatepicker #d="ngbDatepicker">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<pre>
+{{ publishDateModel | json }}
+
+{{ publishDate.status }}
+</pre>
