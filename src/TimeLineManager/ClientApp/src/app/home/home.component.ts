@@ -7,7 +7,7 @@ import { PostRepositoryService } from '../domain/api-repository/post-repository.
 })
 export class HomeComponent {
   constructor(private postRepo: PostRepositoryService) {
-    this.postRepo.getTimeLine().subscribe(data => {
+    this.postRepo.getAll().subscribe(data => {
       console.log(data);
     });
   }
