@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { NgbDateAdapter, NgbDateStruct, NgbDateParserFormatter } from "@ng-bootstrap/ng-bootstrap";
+import { Injectable } from '@angular/core';
+import { NgbDateAdapter, NgbDateStruct, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * This Service handles how the date is represented in scripts i.e. ngModel.
@@ -24,8 +24,8 @@ export class CustomAdapter extends NgbDateAdapter<string> {
   toModel(date: NgbDateStruct | null): string | null {
     return date ? date.year + this.DELIMITER +
       (date.month < 10 ? '0' + date.month : date.month) +
-      this.DELIMITER + (date.day < 10 ? '0' +
-      date.day : date.day) : null;
+      this.DELIMITER +
+      (date.day < 10 ? '0' + date.day : date.day) : null;
   }
 }
 
@@ -50,8 +50,9 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
   }
 
   format(date: NgbDateStruct | null): string {
-    return date ? (date.month < 10 ? '0' +
-    date.month : date.month) + this.DELIMITER +
+    return date ?
+    (date.month < 10 ? '0' + date.month : date.month) +
+    this.DELIMITER +
     (date.day < 10 ? '0' + date.day : date.day) +
     this.DELIMITER + date.year : '';
   }
