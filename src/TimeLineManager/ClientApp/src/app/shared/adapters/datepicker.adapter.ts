@@ -11,7 +11,7 @@ export class CustomAdapter extends NgbDateAdapter<string> {
 
   fromModel(value: string | null): NgbDateStruct | null {
     if (value) {
-      let date = value.split(this.DELIMITER);
+      const date = value.split(this.DELIMITER);
       return {
         year: parseInt(date[0], 10),
         month: parseInt(date[1], 10),
@@ -22,7 +22,10 @@ export class CustomAdapter extends NgbDateAdapter<string> {
   }
 
   toModel(date: NgbDateStruct | null): string | null {
-    return date ? date.year + this.DELIMITER + (date.month < 10 ? '0' + date.month : date.month) + this.DELIMITER + (date.day < 10 ? '0' + date.day : date.day) : null;
+    return date ? date.year + this.DELIMITER +
+      (date.month < 10 ? '0' + date.month : date.month) +
+      this.DELIMITER + (date.day < 10 ? '0' +
+      date.day : date.day) : null;
   }
 }
 
@@ -36,8 +39,7 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
 
   parse(value: string): NgbDateStruct | null {
     if (value) {
-      console.log(value)
-      let date = value.split(this.DELIMITER);
+      const date = value.split(this.DELIMITER);
       return {
         month: parseInt(date[0], 10),
         day: parseInt(date[1], 10),
@@ -48,6 +50,9 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
   }
 
   format(date: NgbDateStruct | null): string {
-    return date ? (date.month < 10 ? '0' + date.month : date.month) + this.DELIMITER + (date.day < 10 ? '0' + date.day : date.day) + this.DELIMITER + date.year : '';
+    return date ? (date.month < 10 ? '0' +
+    date.month : date.month) + this.DELIMITER +
+    (date.day < 10 ? '0' + date.day : date.day) +
+    this.DELIMITER + date.year : '';
   }
 }
