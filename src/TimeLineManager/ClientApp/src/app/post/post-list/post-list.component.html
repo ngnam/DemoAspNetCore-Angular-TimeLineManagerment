@@ -1,1 +1,3 @@
-<p>post-list works!</p>
+<article class="post-container" *ngIf="items">
+  <app-post-item *ngFor="let item of items" [item]="item"></app-post-item>
+</article>

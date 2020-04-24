@@ -19,7 +19,7 @@ export class GlobalErrorHandlerService implements ErrorHandler {
     }
 
     // redirect to ERROR page
-    router.navigate(['/error']);
+    // router.navigate(['/error']);
   }
 }
 

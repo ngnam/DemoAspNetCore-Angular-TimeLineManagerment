@@ -102,3 +102,10 @@ export interface PostResponse {
   errorDisplay: boolean;
   errorMessage: string;
 }
+
+export interface PostListResponse {
+  resultCode: number; // 1: success, 0: failed
+  resultData: Post[];
+  errorDisplay: boolean;
+  errorMessage: string;
+}

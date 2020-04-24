@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpApiService } from '../../core/services/http-api.service';
-import { Post, PostResponse } from '../api-models/post-response';
+import { Post, PostResponse, PostListResponse } from '../api-models/post-response';
 import { PostRepository } from './post-respository';
 import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
@@ -18,7 +18,7 @@ const router = {
 })
 export class PostRepositoryService extends PostRepository<Post> {
 
-  getAll() {
+  getAll(): Observable<PostListResponse> {
     return this.httpClient.get(router.getAll);
   }
 

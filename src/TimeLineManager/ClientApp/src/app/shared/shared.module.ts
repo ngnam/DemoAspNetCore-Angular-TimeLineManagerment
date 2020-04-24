@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbDatepickerModule, NgbTimepickerModule, NgbDateAdapter, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { CustomAdapter, CustomDateParserFormatter } from './adapters/datepicker.adapter';
+import { DatetimeSinceFormatPipe } from './pipes/datetime-since-format.pipe';
+import { DefaultImageDirective } from './directives/default-image.directive';
 
 @NgModule({
   imports: [
@@ -12,7 +14,9 @@ import { CustomAdapter, CustomDateParserFormatter } from './adapters/datepicker.
     NgbDatepickerModule,
     NgbTimepickerModule
   ],
-  declarations: [],
+  declarations: [
+    DatetimeSinceFormatPipe,
+    DefaultImageDirective],
   providers: [
     { provide: NgbDateAdapter, useClass: CustomAdapter },
     { provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter }
@@ -23,9 +27,13 @@ import { CustomAdapter, CustomDateParserFormatter } from './adapters/datepicker.
     ReactiveFormsModule,
     // Add thirt party librarys
     NgbDatepickerModule,
-    NgbTimepickerModule
+    NgbTimepickerModule,
+    // pipes
+    DatetimeSinceFormatPipe,
+    // directives
+    DefaultImageDirective
   ],
-  entryComponents: []
+  entryComponents: [],
 })
 export class SharedModule {
 }
