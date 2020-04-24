@@ -4,6 +4,7 @@ enum MediaType {
 }
 
 interface Media {
+  id: number;
   type: MediaType;
   thumb: string;
   original: string;

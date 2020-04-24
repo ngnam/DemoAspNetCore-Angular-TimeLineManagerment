@@ -1,5 +1,12 @@
 /**
- *
+ * namnv39
+ * 0349801673
+ * nguyen.van.nam@outlook.com
+ * day: 24/4/2020
+ */
+
+/**
+ * Parse string DateISO to DateTimeUTC
  * @param s is string ISODatetime
  */
 export function parseISOStringToDate(s: string) {
@@ -21,10 +28,17 @@ export function parseISOStringToDate(s: string) {
   }
 }
 
+/**
+ * get timezone Display Name
+ */
 export function getTimeZoneInfoDisplayName() {
   return new Date().toString().split(' ')[5];
 }
 
+/**
+ * convert strDate to timestamp
+ * @param strDate string
+ */
 export function toTimestamp(strDate: string): number {
   try {
     const datum = Date.parse(strDate);
@@ -34,10 +48,128 @@ export function toTimestamp(strDate: string): number {
   }
 }
 
+/**
+ * convert unixTimestamp to DateTime
+ * @param unixTime number
+ */
 export function fromTimestamp(unixTime: number) {
   return new Date(unixTime * 1000);
 }
 
+/**
+ * Convert Date to unixTimeStamp
+ * @param d Date
+ */
 export function toTimestampFromDate(d: Date) {
   return Math.round(d.getTime() / 1000);
+}
+
+/**
+ * get Date string with format from DateTime
+ * @param dateTime Date
+ * @param format is string format date
+ */
+export function toDateFormat(dateTime: Date, format?: 'yyyy-mm-dd' | 'yyyy-dd-mm' | 'dd/mm/yyyy' | 'mm/dd/yyyy') {
+  const date = dateTime.getDate();
+  const month = dateTime.getMonth() + 1;
+  const year = dateTime.getFullYear();
+  let strDate = date.toString();
+  let strMonth = month.toString();
+  let result = '';
+
+  if (date < 10) { strDate = '0' + date; }
+  if (month < 10) { strMonth = '0' + month; }
+
+  if (!format) {
+    format = 'yyyy-mm-dd';
+  }
+  switch (format) {
+    case 'yyyy-mm-dd':
+      result = `${year}-${strMonth}-${strDate}`;
+      break;
+    case 'yyyy-dd-mm':
+      result = `${year}-${strDate}-${strMonth}`;
+      break;
+    case 'dd/mm/yyyy':
+      result = `${strDate}/${strMonth}/${year}`;
+      break;
+    case 'mm/dd/yyyy':
+      result = `${strMonth}/${strDate}/${year}`;
+      break;
+  }
+  return result;
+}
+
+/**
+ * get Time string with format time from DateTime
+ * @param dateTime Date
+ * @param format is string format date
+ */
+export function toTimeFormat(dateTime: Date, format?: 'HH:mm:ss' | 'HH:mm') {
+  const hours = dateTime.getHours();
+  const minute = dateTime.getMinutes();
+  const second = dateTime.getSeconds();
+  let strHour = hours.toString();
+  let strMinute = minute.toString();
+  let strSecond = second.toString();
+  let result = '';
+
+  if (hours < 10) { strHour = '0' + hours; }
+  if (minute < 10) { strMinute = '0' + minute; }
+  if (second < 10) { strSecond = '0' + second; }
+
+  if (!format) {
+    format = 'HH:mm:ss';
+  }
+  switch (format) {
+    case 'HH:mm:ss':
+      result = `${strHour}:${strMinute}:${strSecond}`;
+      break;
+    case 'HH:mm':
+      result = `${strHour}:${strMinute}`;
+      break;
+  }
+
+  return result;
+}
+
+function getExtension(filename: string) {
+  const parts = filename.split('.');
+  return parts[parts.length - 1];
+}
+
+export function isImage(filename: string) {
+  const ext = getExtension(filename);
+  switch (ext.toLowerCase()) {
+    case 'jpg':
+    case 'gif':
+    case 'bmp':
+    case 'png':
+    // etc
+    return true;
+  }
+  return false;
+}
+
+export function isVideo(filename: string) {
+  const ext = getExtension(filename);
+  switch (ext.toLowerCase()) {
+    case 'm4v':
+    case 'avi':
+    case 'mpg':
+    case 'mp4':
+    // etc
+    return true;
+  }
+  return false;
+}
+
+export function CheckFileSize(file: File, sizeLimit?: number) {
+  if (!sizeLimit) { sizeLimit = 10; }
+  const fileSize = file.size / 1024 / 1024; // in MB
+  if (fileSize > sizeLimit) {
+    alert('File size exceeds 2 MB');
+    return false;
+  }
+  return true;
 }

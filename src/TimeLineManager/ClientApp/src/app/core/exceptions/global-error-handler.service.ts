@@ -18,6 +18,7 @@ export class GlobalErrorHandlerService implements ErrorHandler {
       console.error('An error occurred:', error.message);
     }
 
+    // redirect to ERROR page
     router.navigate(['/error']);
   }
 }

@@ -4,6 +4,7 @@ enum Status {
 }
 
 interface Image {
+  id: number;
   thumb: string;
   original: string;
   width: number;
@@ -11,6 +12,7 @@ interface Image {
 }
 
 interface Video {
+  id: number;
   thumb: string;
   original: string;
   width: number;
@@ -33,6 +35,7 @@ interface Coupon {
 }
 
 interface Link {
+  id: number;
   url: string; // https://line.me
   title: string; // "LINE : Free Calls & Messages",
   desc: string; // "LINE is a new communication app which allows you to
@@ -74,8 +77,23 @@ export interface Post {
   coupon?: Coupon;
   link?: Link;
   survey?: Survey;
-  createdAt: number;
-  updatedAt: number;
+  createdAt?: number;
+  updatedAt?: number;
+}
+
+export interface PostDTOModel {
+  id?: number;
+  isPublishNow: number;
+  publishDate?: string;
+  publishTime?: string;
+  postStatus?: PostStatus;
+  postType?: PostType;
+  images?: Image[];
+  video?: Video;
+  sticker?: Sticker;
+  coupon?: Coupon;
+  link?: Link;
+  survey?: Survey;
 }
 
 export interface PostResponse {

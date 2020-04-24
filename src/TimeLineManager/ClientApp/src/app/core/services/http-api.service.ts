@@ -62,7 +62,7 @@ export class HttpApiService {
   }
 
   private extractData(res: HttpResponse<object>) {
-    const body = res;
+    const body: any = res;
     return body || {};
   }
 }

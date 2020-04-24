@@ -21,7 +21,7 @@ import { GlobalErrorHandlerService } from './exceptions/global-error-handler.ser
       multi: true
     },
     GlobalErrorHandlerService,
-    { provide: ErrorHandler, useClass: GlobalErrorHandlerService }    
+    { provide: ErrorHandler, useClass: GlobalErrorHandlerService }
   ],
   declarations: [GlobalErrorComponent]
 })

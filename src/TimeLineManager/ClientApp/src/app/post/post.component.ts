@@ -3,39 +3,33 @@ import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { NgbCalendar, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
-import { Post, PostStatus, PostType } from '../domain/api-models/post-response';
+import { Post, PostStatus, PostType, PostDTOModel } from '../domain/api-models/post-response';
 import { toTimestampFromDate } from '../core/base/helpers';
 import { NgForm } from '@angular/forms';
-interface PostModel {
-  isPublishNow: number;
-  publishDate?: string;
-  publishTime?: string;
-  postStatus?: string;
-  postType?: string;
-  postData?: any;
-}
+
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss']
 })
 export class PostComponent implements OnInit, OnDestroy {
-  postTimeLineModel: Post = {
+
+  btnSaveDraft = 'Save draft';
+  btnSubmit = 'Publish';
+
+  postModel: PostDTOModel = {
+    isPublishNow: 1
+  };
+
+  private unsubcribe$ = new Subject<void>();
+
+  private postTimeLineModel: Post = {
     id: 0,
     status: PostStatus.DRAFTED,
     type: PostType.IMAGE,
     createdAt: toTimestampFromDate(new Date()),
     updatedAt: toTimestampFromDate(new Date())
   };
-
-  postModel: PostModel = {
-    isPublishNow: 1
-  };
-
-  btnSaveDraft = 'Save draft';
-  btnSubmit = 'Publish';
-
-  private unsubcribe$ = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
@@ -63,7 +57,7 @@ export class PostComponent implements OnInit, OnDestroy {
     this.unsubcribe$.complete();
   }
 
-  onSubmit(f: NgForm) {
+  onSavePublish(f: NgForm) {
     this.postModel.postStatus = PostStatus.PUBLISHED;
     console.log(this.postModel);
     // mapTo
@@ -79,6 +73,13 @@ export class PostComponent implements OnInit, OnDestroy {
     // mapTo
 
     // call api
+  }
+
+  loadComponent(contentType: PostType) {
+
+  }
+
+  private onSaveOrUpdate(params: Post, id?: number) {
   }
 
 }

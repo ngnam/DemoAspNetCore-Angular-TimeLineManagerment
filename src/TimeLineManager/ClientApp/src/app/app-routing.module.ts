@@ -15,6 +15,7 @@ const routes: Routes = [
     redirectTo: '/post',
     pathMatch: 'full'
   },
+  // default redirect to /post
   {
     path: '**',
     redirectTo: '/post',
