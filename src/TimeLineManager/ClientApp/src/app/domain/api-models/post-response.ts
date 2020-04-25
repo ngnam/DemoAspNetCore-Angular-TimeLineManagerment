@@ -84,29 +84,16 @@ export interface Post {
 export interface PostDTOModel {
   id?: number;
   isPublishNow: number;
+  postType: PostType;
   publishDate?: string;
   publishTime?: string;
   postStatus?: PostStatus;
-  postType?: PostType;
   images?: Image[];
   video?: Video;
   sticker?: Sticker;
   coupon?: Coupon;
   link?: Link;
   survey?: Survey;
-}
-
-export interface PostItemDTO {
-  id?: number;
-  thumb?: string;
-  type?: string;
-  thumbs?: string[];
-  title?: string;
-  original?: string;
-  duration?: number;
-  description?: string;
-  createAt?: number;
-  url?: string;
 }
 
 export interface PostResponse {

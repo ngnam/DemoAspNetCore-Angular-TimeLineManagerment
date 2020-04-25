@@ -4,6 +4,7 @@
  * nguyen.van.nam@outlook.com
  * day: 24/4/2020
  */
+const pad = (i: number): string => i < 10 ? `0${i}` : `${i}`;
 
 /**
  * Parse string DateISO to DateTimeUTC
@@ -73,28 +74,23 @@ export function toDateFormat(dateTime: Date, format?: 'yyyy-mm-dd' | 'yyyy-dd-mm
   const date = dateTime.getDate();
   const month = dateTime.getMonth() + 1;
   const year = dateTime.getFullYear();
-  let strDate = date.toString();
-  let strMonth = month.toString();
   let result = '';
-
-  if (date < 10) { strDate = '0' + date; }
-  if (month < 10) { strMonth = '0' + month; }
 
   if (!format) {
     format = 'yyyy-mm-dd';
   }
   switch (format) {
     case 'yyyy-mm-dd':
-      result = `${year}-${strMonth}-${strDate}`;
+      result = `${year}-${pad(month)}-${pad(date)}`;
       break;
     case 'yyyy-dd-mm':
-      result = `${year}-${strDate}-${strMonth}`;
+      result = `${year}-${pad(date)}-${pad(month)}`;
       break;
     case 'dd/mm/yyyy':
-      result = `${strDate}/${strMonth}/${year}`;
+      result = `${pad(date)}/${pad(month)}/${year}`;
       break;
     case 'mm/dd/yyyy':
-      result = `${strMonth}/${strDate}/${year}`;
+      result = `${pad(month)}/${pad(date)}/${year}`;
       break;
   }
   return result;
@@ -109,24 +105,17 @@ export function toTimeFormat(dateTime: Date, format?: 'HH:mm:ss' | 'HH:mm') {
   const hours = dateTime.getHours();
   const minute = dateTime.getMinutes();
   const second = dateTime.getSeconds();
-  let strHour = hours.toString();
-  let strMinute = minute.toString();
-  let strSecond = second.toString();
   let result = '';
-
-  if (hours < 10) { strHour = '0' + hours; }
-  if (minute < 10) { strMinute = '0' + minute; }
-  if (second < 10) { strSecond = '0' + second; }
 
   if (!format) {
     format = 'HH:mm:ss';
   }
   switch (format) {
     case 'HH:mm:ss':
-      result = `${strHour}:${strMinute}:${strSecond}`;
+      result = `${pad(hours)}:${pad(minute)}:${pad(second)}`;
       break;
     case 'HH:mm':
-      result = `${strHour}:${strMinute}`;
+      result = `${pad(hours)}:${pad(minute)}`;
       break;
   }
 

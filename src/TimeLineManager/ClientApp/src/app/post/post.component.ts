@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { NgbCalendar, NgbDateAdapter } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbDateAdapter, NgbTimeAdapter, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
 import { Post, PostStatus, PostType, PostDTOModel } from '../domain/api-models/post-response';
-import { toTimestampFromDate } from '../core/base/helpers';
+import { toTimestampFromDate, toTimeFormat, getTimeZoneInfoDisplayName } from '../core/base/helpers';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -18,8 +18,13 @@ export class PostComponent implements OnInit, OnDestroy {
   btnSubmit = 'Publish';
 
   postModel: PostDTOModel = {
-    isPublishNow: 1
+    isPublishNow: 1,
+    postType: PostType.IMAGE
   };
+
+  GTMTime = getTimeZoneInfoDisplayName();
+
+  PostTypeItems: { id: PostType; name: string; icon: string; order: number; }[] = [];
 
   private unsubcribe$ = new Subject<void>();
 
@@ -35,6 +40,7 @@ export class PostComponent implements OnInit, OnDestroy {
     private ngbCalendar: NgbCalendar,
     private dateAdapter: NgbDateAdapter<string>) {
       this.postModel.publishDate = this.today;
+      this.postModel.publishTime = toTimeFormat(new Date(), 'HH:mm');
   }
 
   get today() {
@@ -49,6 +55,18 @@ export class PostComponent implements OnInit, OnDestroy {
       .subscribe(params => {
         console.log(params); // {id: 123}
       });
+    this.PostTypeItems = [
+      { id: PostType.COUPON, name: 'Coupon', icon: 'fa fa-columns', order: 4 },
+      { id: PostType.IMAGE, name: 'Image', icon: 'fa fa-picture-o', order: 1  },
+      { id: PostType.LINK, name: 'Link', icon: 'fa fa-link', order: 5  },
+      { id: PostType.STICKER, name: 'Sticker', icon: 'fa fa-smile-o', order: 3  },
+      { id: PostType.SURVEY, name: 'Survey', icon: 'fa fa-list', order: 6  },
+      { id: PostType.VIDEO, name: 'Video', icon: 'fa fa-play-circle-o', order: 2  },
+    ].sort((a, b) => {
+      if (a.order > b.order) { return 1; }
+      if (b.order > a.order) { return -1; }
+      return 0;
+    });
   }
 
   ngOnDestroy() {

@@ -1,10 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbDatepickerModule, NgbTimepickerModule, NgbDateAdapter, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDatepickerModule,
+  NgbTimepickerModule,
+  NgbDateAdapter,
+  NgbDateParserFormatter,
+  NgbTimeAdapter,
+  NgbPopoverModule,
+  NgbTooltipModule
+} from '@ng-bootstrap/ng-bootstrap';
 import { CustomAdapter, CustomDateParserFormatter } from './adapters/datepicker.adapter';
 import { DatetimeSinceFormatPipe } from './pipes/datetime-since-format.pipe';
 import { DefaultImageDirective } from './directives/default-image.directive';
+import { NgbTimeStringAdapter } from './adapters/timepicker.adapter';
 
 @NgModule({
   imports: [
@@ -12,14 +21,17 @@ import { DefaultImageDirective } from './directives/default-image.directive';
     FormsModule,
     ReactiveFormsModule,
     NgbDatepickerModule,
-    NgbTimepickerModule
+    NgbTimepickerModule,
+    NgbPopoverModule,
+    NgbTooltipModule
   ],
   declarations: [
     DatetimeSinceFormatPipe,
     DefaultImageDirective],
   providers: [
     { provide: NgbDateAdapter, useClass: CustomAdapter },
-    { provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter }
+    { provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter },
+    { provide: NgbTimeAdapter, useClass: NgbTimeStringAdapter}
   ],
   exports: [
     CommonModule,
@@ -28,6 +40,8 @@ import { DefaultImageDirective } from './directives/default-image.directive';
     // Add thirt party librarys
     NgbDatepickerModule,
     NgbTimepickerModule,
+    NgbPopoverModule,
+    NgbTooltipModule,
     // pipes
     DatetimeSinceFormatPipe,
     // directives

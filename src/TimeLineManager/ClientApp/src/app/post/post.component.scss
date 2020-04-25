@@ -1,14 +1,50 @@
 :host {
   .form-container {
-      label {
-          font-weight: 600;
-      }
+    label {
+      font-weight: 600;
+    }
 
-      .disabled {
-        cursor: not-allowed;
-        user-select: none;
-        -moz-user-select: none;
-        -webkit-user-select: none;
+    .disabled {
+      cursor: not-allowed;
+      user-select: none;
+      -moz-user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .badge-light {
+      border: 1px solid #212529;
+    }
+
+    .list-post-types-item {
+      li {
+        background-color: transparent;
+        border: 0;
+        filter: alpha(opacity=50);
+        opacity: 0.5;
+        -webkit-transition: opacity 1s ease-in-out;
+        -moz-transition: opacity 1s ease-in-out;
+        -ms-transition: opacity 1s ease-in-out;
+        -o-transition: opacity 1s ease-in-out;
+        transition: opacity 1s ease-in-out;
+        &:first-child,
+        &:last-child {
+          border: 0;
+          border-radius: 0;
+        }
+        &.actived,
+        &:hover {
+          background-color: rgba(0,0,0,.125);
+          cursor: pointer;
+          filter: alpha(opacity=100);
+          opacity: 1;
+        }
       }
+    }
+  }
+}
+::ng-deep {
+  .ngb-tp-input {
+    text-align: center;
+    width: 100% !important;
   }
 }

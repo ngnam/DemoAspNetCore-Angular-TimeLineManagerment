@@ -11,12 +11,12 @@
   <hr class="mb-5" />
   <div class="form-row">
     <div class="form-group col">
-      <button type="button" class="btn btn-secondary" (click)="onSaveDraft(f)">
+      <button type="button" class="btn btn-secondary" (click)="onSaveDraft(f)" [disabled]="f.form.invalid">
         {{ btnSaveDraft }}
       </button>
     </div>
     <div class="form-group col text-right">
-      <button type="submit" class="btn btn-success">{{ postModel.isPublishNow === 1 ? btnSubmit : 'Schedule' }}</button>
+      <button type="submit" class="btn btn-success" [disabled]="f.form.invalid">{{ postModel.isPublishNow === 1 ? btnSubmit : 'Schedule' }}</button>
     </div>
   </div>
 
@@ -34,7 +34,7 @@
         <div class="input-group">
         <label><input type="radio" name="isPublishNow" [value]="2" [(ngModel)]="postModel.isPublishNow" />&nbsp;</label>
         </div>
-        <div class="input-group">
+        <div class="input-group pr-2">
           <!-- https://stackoverflow.com/questions/45256076/angular-2-attr-disabled-is-not-working-for-div-when-i-try-to-iterate-ngfor-loop -->
           <input
             [attr.disabled]="postModel.isPublishNow === 1 ? 'disabled' : null"
@@ -46,6 +46,7 @@
             [(ngModel)]="postModel.publishDate"
             ngbDatepicker
             #d="ngbDatepicker"
+            required
           />
           <div class="input-group-append">
             <button
@@ -58,9 +59,65 @@
             </button>
           </div>
         </div>
+
+        <div class="input-group pr-2">
+          <input
+            [attr.disabled]="postModel.isPublishNow === 1 ? 'disabled' : null"
+            [disabled]="postModel.isPublishNow === 1"
+            class="form-control"
+            placeholder="HH:mm"
+            name="publishTime"
+            required
+            #publishTime="ngModel"
+            [(ngModel)]="postModel.publishTime"/>
+
+          <div class="input-group-append">
+            <button
+              class="btn btn-outline-secondary"
+              [attr.disabled]="postModel.isPublishNow === 1 ? 'disabled' : null"
+              [disabled]="postModel.isPublishNow === 1"
+              type="button"
+              [ngbPopover]="popTimePickerTemplate"
+              [autoClose]="'outside'"
+              placement="bottom"
+            >
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+            </button>
+          </div>
+
+          <ng-template #popTimePickerTemplate>
+            <ngb-timepicker class="timepicker" name="publishTime" [(ngModel)]="postModel.publishTime"></ngb-timepicker>
+          </ng-template>
+
+        </div>
+
+        <div class="input-group">
+          <span class="badge badge-pill badge-light">{{ GTMTime }}</span>
+        </div>
+
       </div>
     </div>
   </div>
 
   <hr />
+
+  <div class="form-group">
+    <div class="card">
+      <div class="card-header">
+        <ul class="list-group list-group-horizontal list-post-types-item">
+          <li class="list-group-item" *ngFor="let item of PostTypeItems" placement="top" [ngbTooltip]="item.name">
+            <i class="{{ item.icon }}"></i>
+          </li>
+        </ul>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">Special title treatment</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+  </div>
+
 </form>
+
+{{ postModel | json }}
