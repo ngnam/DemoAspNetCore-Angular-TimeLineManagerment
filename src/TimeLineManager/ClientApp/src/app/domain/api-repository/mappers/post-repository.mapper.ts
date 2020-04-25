@@ -16,7 +16,7 @@ export class PostRepositoryMapper extends Mapper<Post, PostDTOModel> {
       postStatus: param.status || null,
       postType: param.type || null,
     };
-    const createAt: Date = fromTimestamp(param.createdAt);
+    const createAt: Date = fromTimestamp(param.scheduledTime); // time scheduled post
     data.publishDate = toDateFormat(createAt);
     data.publishTime = toTimeFormat(createAt);
     return data;
@@ -54,11 +54,13 @@ export class PostRepositoryMapper extends Mapper<Post, PostDTOModel> {
     // 1: publishNow, 2: publishSchedule
     if (param.isPublishNow === 1) {
       data.createdAt = toTimestampFromDate(new Date());
+      data.scheduledTime = data.createdAt;
     }
 
     if (param.isPublishNow === 2 && param.publishDate && param.publishTime) {
       const dateTimeParse = `${param.publishDate}T${param.publishTime}`;
       data.createdAt = toTimestamp(dateTimeParse);
+      data.scheduledTime = data.createdAt;
     }
 
     // updatedAt

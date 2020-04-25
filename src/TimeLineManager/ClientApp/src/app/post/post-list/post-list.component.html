@@ -1,3 +1,6 @@
-<article class="post-container" *ngIf="items">
+<ng-template #loading>
+  <p>loadding....</p>
+</ng-template>
+<article class="post-container" *ngIf="items; else loading">
   <app-post-item *ngFor="let item of items" [item]="item"></app-post-item>
 </article>

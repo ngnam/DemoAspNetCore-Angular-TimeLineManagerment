@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { PostListResponse } from "../api-models/post-response";
+import { PostListResponse } from '../api-models/post-response';
 
 export abstract class PostRepository<T> {
   abstract getAll(): Observable<PostListResponse>;

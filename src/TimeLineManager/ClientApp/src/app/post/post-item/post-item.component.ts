@@ -1,18 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { PostType } from 'src/app/domain/api-models/post-response';
-
-export interface PostItem {
-  id?: number;
-  thumb?: string;
-  type?: string;
-  thumbs?: string[];
-  title?: string;
-  original?: string;
-  duration?: number;
-  description?: string;
-  createAt?: number;
-  url?: string;
-}
+import { PostType, Post } from 'src/app/domain/api-models/post-response';
 
 @Component({
   selector: 'app-post-item',
@@ -20,10 +7,10 @@ export interface PostItem {
   styleUrls: ['./post-item.component.scss'],
 })
 export class PostItemComponent implements OnInit {
-  @Input() item: PostItem;
+  @Input() item: Post;
   // tslint:disable-next-line: no-inferrable-types
   @Input() isRemove: boolean = false;
-  @Output() remoteItem: EventEmitter<{ item: PostItem }> = new EventEmitter();
+  @Output() remoteItem: EventEmitter<{ item: Post }> = new EventEmitter();
 
   postType = PostType;
 
@@ -31,7 +18,7 @@ export class PostItemComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  onRemoveItem(item: PostItem) {
+  onRemoveItem(item: Post) {
     this.remoteItem.emit({ item });
   }
 }

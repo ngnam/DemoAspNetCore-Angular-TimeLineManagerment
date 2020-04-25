@@ -4,15 +4,15 @@ enum Status {
 }
 
 interface Image {
-  id: number;
-  thumb: string;
-  original: string;
+  id?: number;
+  thumb: string; // url size 100x100
+  original: string; // url fullsize
   width: number;
   height: number;
 }
 
 interface Video {
-  id: number;
+  id?: number;
   thumb: string;
   original: string;
   width: number;
@@ -21,12 +21,12 @@ interface Video {
 }
 
 interface Sticker {
-  id: number;
+  id?: number;
   url: string;
 }
 
 interface Coupon {
-  id: number;
+  id?: number;
   startDate: number;
   endDate: number;
   status: Status;
@@ -35,7 +35,7 @@ interface Coupon {
 }
 
 interface Link {
-  id: number;
+  id?: number;
   url: string; // https://line.me
   title: string; // "LINE : Free Calls & Messages",
   desc: string; // "LINE is a new communication app which allows you to
@@ -44,7 +44,7 @@ interface Link {
 }
 
 interface Survey {
-  id: number;
+  id?: number;
   startDate: number;
   endDate: number;
   status: Status;
@@ -67,18 +67,18 @@ export enum PostType {
 }
 
 export interface Post {
-  id: number;
-  type: PostType;
-  status: PostStatus;
-  scheduledTime?: number;
-  images?: Image[];
-  video?: Video;
-  sticker?: Sticker;
-  coupon?: Coupon;
-  link?: Link;
-  survey?: Survey;
-  createdAt?: number;
-  updatedAt?: number;
+  id: number; // column int
+  type: PostType; // column string
+  status: PostStatus; // column string
+  scheduledTime?: number; // column double
+  images?: Image[];  // column JSON_VALUE('thumb') image.thumb
+  video?: Video;  // column JSON_VALUE
+  sticker?: Sticker; // column JSON_VALUE
+  coupon?: Coupon;  // column JSON_VALUE
+  link?: Link;  // column JSON_VALUE
+  survey?: Survey;  // column JSON_VALUE
+  createdAt?: number; // column double
+  updatedAt?: number; // column double
 }
 
 export interface PostDTOModel {
@@ -94,6 +94,19 @@ export interface PostDTOModel {
   coupon?: Coupon;
   link?: Link;
   survey?: Survey;
+}
+
+export interface PostItemDTO {
+  id?: number;
+  thumb?: string;
+  type?: string;
+  thumbs?: string[];
+  title?: string;
+  original?: string;
+  duration?: number;
+  description?: string;
+  createAt?: number;
+  url?: string;
 }
 
 export interface PostResponse {

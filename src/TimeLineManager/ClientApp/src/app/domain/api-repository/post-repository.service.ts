@@ -31,6 +31,7 @@ export class PostRepositoryService extends PostRepository<Post> {
   create(param: Post) {
     return this.httpClient.post(router.create, JSON.stringify(param));
   }
+
   update(id: number, param: Post) {
     return this.httpClient.put(`${router.update}/${id}`, JSON.stringify(param));
   }

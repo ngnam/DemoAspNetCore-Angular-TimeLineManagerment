@@ -1,9 +1,10 @@
 <div *ngIf="item">
   <div class="post-item card mb-3" [ngSwitch]="item.type">
+    <!-- post type IMAGE -->
     <div class="row no-gutters" *ngSwitchCase="postType.IMAGE">
-      <div class="col" *ngFor="let thumb of item.thumbs">
+      <div class="col" *ngFor="let image of item.images">
         <img
-          [src]="thumb"
+          [src]="image.thumb"
           class="card-img"
           default="https://via.placeholder.com/150"
           alt=""
@@ -11,36 +12,99 @@
       </div>
     </div>
 
+    <!-- post type VIDEO -->
     <div class="row no-gutters" *ngSwitchCase="postType.VIDEO">
       <div class="col" style="max-width: 200px;">
-        <video width="320" height="240" controls>
-          <source [src]="item.url" type="video/mp4" />
-          <source [src]="item.url" type="video/ogg" />
-          Your browser does not support the video tag.
-        </video>
+        <img
+          [src]="item.video.thumb"
+          class="card-img"
+          default="https://via.placeholder.com/150"
+          alt=""
+        />
       </div>
     </div>
 
-    <div class="row no-gutters" *ngSwitchDefault>
+    <!-- post type COUPON -->
+    <div class="row no-gutters" *ngSwitchCase="postType.COUPON">
       <div class="col-md-4">
         <img
-          [src]="item?.thumb"
+          [src]="item?.coupon.thumbnail"
           class="card-img"
-          alt="{{ item?.title }}"
+          alt="{{ item?.coupon.title }}"
           default="https://via.placeholder.com/150"
         />
       </div>
       <div class="col-md-8">
         <div class="card-body">
-          <h5 class="card-title">{{ item?.title }}</h5>
-          <p class="card-text">{{ item?.description }}</p>
+          <h5 class="card-title">{{ item?.coupon.title }}</h5>
+          <p class="card-text">{{ item?.coupon.status }}</p>
           <p class="card-text">
             <small class="text-muted"
-              >Last updated {{ item?.createAt | datetimeSinceFormat }}</small
+              >Start Date: {{ item?.coupon.startDate | datetimeSinceFormat }}</small
+            >
+            <small class="text-muted"
+              >End Date: {{ item?.coupon.endDate | datetimeSinceFormat }}</small
             >
           </p>
         </div>
       </div>
     </div>
+
+    <div class="row no-gutters" *ngSwitchCase="postType.LINK">
+      <div class="col-md-4">
+        <img
+          [src]="item?.link.thumbnail"
+          class="card-img"
+          alt="{{ item?.link.title }}"
+          default="https://via.placeholder.com/150"
+        />
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{ item?.link.title }}</h5>
+          <p class="card-text">{{ item?.link.desc }}</p>
+          <p class="card-text">
+            <a href="{{ item?.link.url }}" target="_blank">Read more.</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row no-gutters" *ngSwitchCase="postType.STICKER">
+      <div class="col">
+        <img
+          [src]="item?.sticker.url"
+          class="card-img"
+          alt="{{ item?.link.title }}"
+          default="https://via.placeholder.com/150"
+        />
+      </div>
+    </div>
+
+    <div class="row no-gutters" *ngSwitchCase="postType.SURVEY">
+      <div class="col-md-4">
+        <img
+          [src]="item?.survey.thumbnail"
+          class="card-img"
+          alt="{{ item?.survey.title }}"
+          default="https://via.placeholder.com/150"
+        />
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{ item?.survey.title }}</h5>
+          <p class="card-text">{{ item?.survey.status }}</p>
+          <p class="card-text">
+            <small class="text-muted"
+            >Start Date: {{ item?.survey.startDate | datetimeSinceFormat }}</small
+            >
+            <small class="text-muted"
+              >End Date: {{ item?.survey.endDate | datetimeSinceFormat }}</small
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>

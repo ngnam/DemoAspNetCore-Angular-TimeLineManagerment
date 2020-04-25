@@ -27,8 +27,7 @@ export class PostComponent implements OnInit, OnDestroy {
     id: 0,
     status: PostStatus.DRAFTED,
     type: PostType.IMAGE,
-    createdAt: toTimestampFromDate(new Date()),
-    updatedAt: toTimestampFromDate(new Date())
+    scheduledTime: toTimestampFromDate(new Date())
   };
 
   constructor(
