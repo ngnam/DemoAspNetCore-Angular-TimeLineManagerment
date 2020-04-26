@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ViewContainerRef, ComponentFactoryResolver, Injector, Type, ComponentRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -28,6 +28,8 @@ export class PostComponent implements OnInit, OnDestroy {
 
   private unsubcribe$ = new Subject<void>();
 
+  @ViewChild('contentContainer', { read: ViewContainerRef }) contentContainer: ViewContainerRef;
+
   private postTimeLineModel: Post = {
     id: 0,
     status: PostStatus.DRAFTED,
@@ -38,7 +40,9 @@ export class PostComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private ngbCalendar: NgbCalendar,
-    private dateAdapter: NgbDateAdapter<string>) {
+    private dateAdapter: NgbDateAdapter<string>,
+    private cfr: ComponentFactoryResolver,
+    private injector: Injector) {
       this.postModel.publishDate = this.today;
       this.postModel.publishTime = toTimeFormat(new Date(), 'HH:mm');
   }
@@ -67,6 +71,7 @@ export class PostComponent implements OnInit, OnDestroy {
       if (b.order > a.order) { return -1; }
       return 0;
     });
+    this.loadComponent(this.postModel.postType);
   }
 
   ngOnDestroy() {
@@ -92,11 +97,44 @@ export class PostComponent implements OnInit, OnDestroy {
     // call api
   }
 
-  loadComponent(contentType: PostType) {
+  async loadComponent(contentType?: PostType) {
+    this.postModel.postType = contentType;
+    switch (contentType) {
+      case PostType.IMAGE:
+        const { TimelineImageComponent } = await import('./components/timeline-image/timeline-image.component');
+        const crImage = this.createComponentLazyload(TimelineImageComponent);
+        break;
+      case PostType.VIDEO:
+        const { TimelineVideoComponent } = await import('./components/timeline-video/timeline-video.component');
+        const crVideo = this.createComponentLazyload(TimelineVideoComponent);
+        break;
+      case PostType.COUPON:
+        const { TimelineCouponComponent } = await import('./components/timeline-coupon/timeline-coupon.component');
+        const crCoupon = this.createComponentLazyload(TimelineCouponComponent);
+        break;
+      case PostType.LINK:
+        const { TimelineLinkComponent } = await import('./components/timeline-link/timeline-link.component');
+        const crLink = this.createComponentLazyload(TimelineLinkComponent);
+        break;
+      case PostType.STICKER:
+        const { TimelineStickerComponent } = await import('./components/timeline-sticker/timeline-sticker.component');
+        const crSticker = this.createComponentLazyload(TimelineStickerComponent);
+        break;
+      case PostType.SURVEY:
+        const { TimelineSurveyComponent } = await import('./components/timeline-survey/timeline-survey.component');
+        const crSurvey = this.createComponentLazyload(TimelineSurveyComponent);
+      break;
+    }
+  }
 
+  private createComponentLazyload<T>(component: Type<T>): ComponentRef<T> {
+    const componentFactory = this.cfr.resolveComponentFactory(component);
+    this.contentContainer.clear();
+    return this.contentContainer.createComponent(componentFactory, null, this.injector);
   }
 
   private onSaveOrUpdate(params: Post, id?: number) {
+
   }
 
 }

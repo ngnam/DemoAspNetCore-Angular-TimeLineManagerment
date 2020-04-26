@@ -105,15 +105,13 @@
     <div class="card">
       <div class="card-header">
         <ul class="list-group list-group-horizontal list-post-types-item">
-          <li class="list-group-item" *ngFor="let item of PostTypeItems" placement="top" [ngbTooltip]="item.name">
+          <li class="list-group-item" [ngClass]="{'actived': item.id === postModel.postType}" *ngFor="let item of PostTypeItems" placement="top" [ngbTooltip]="item.name" (click)="loadComponent(item.id)">
             <i class="{{ item.icon }}"></i>
           </li>
         </ul>
       </div>
       <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+        <ng-container #contentContainer class="content-card-container"></ng-container>
       </div>
     </div>
   </div>
