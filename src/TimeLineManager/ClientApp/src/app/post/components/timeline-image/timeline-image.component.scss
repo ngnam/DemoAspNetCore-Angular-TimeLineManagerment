@@ -1,10 +1,11 @@
 :host {
   .timeline-image-item {
     li {
+      position: relative;
       margin-right: 2px;
       background-color: transparent;
       border: 0;
-      padding: 0;
+      padding: 10px;
       &:first-child,
       &:last-child {
         border: 0;
@@ -19,6 +20,16 @@
         min-width: 150px;
         min-height: 150px;
         max-height: 150px;
+      }
+      span.close {
+        position: absolute;
+        right: 0;
+        top: 0;
+        cursor: pointer;
+        background: transparent;
+        width: 25px;
+        height: 25px;
+        text-align: center;
       }
     }
   }

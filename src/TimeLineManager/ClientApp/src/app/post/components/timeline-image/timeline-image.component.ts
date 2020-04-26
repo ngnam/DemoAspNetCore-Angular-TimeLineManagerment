@@ -33,6 +33,11 @@ export class TimelineImageComponent implements OnInit {
     this.images$.next(images);
   }
 
+  removeItem(image: Image) {
+    this.images = this.images.filter(item => item.thumb !== image.thumb);
+    this.setImages(this.images);
+  }
+
   async openPopUp() {
     const { TimelineImagePopupComponent } = await import('../timeline-image-popup/timeline-image-popup.component');
     const modalRef = this.modalService.open(
@@ -54,7 +59,6 @@ export class TimelineImageComponent implements OnInit {
       },
       (reason) => console.log('Dismissed: ', this.getDismissReason(reason)));
   }
-
 
 
   private getDismissReason(reason: any): string {

@@ -11,16 +11,19 @@
   <ng-template #renderItemTmp>
     <div class="row no-gutters">
       <ul class="list-group list-group-horizontal timeline-image-item">
-        <li class="list-group-item" *ngFor="let image of images">
+        <li class="list-group-item" *ngFor="let image of images; let i = index;">
+          <span class="close" aria-label="Close" (click)="removeItem(image)">
+            <span aria-hidden="true">&times;</span>
+          </span>
           <img
-          class="img-thumbnail m-2"
+          class="img-thumbnail"
           src="/photo/{{ image.thumb }}"
           default="/assets/150.png"
           alt=""
           />
         </li>
         <li class="list-group-item">
-          <button type="button" class="btn btn-outline-success img-thumbnail m-2 border-color-custom1" (click)="openPopUp()">
+          <button type="button" class="btn btn-outline-success img-thumbnail border-color-custom1" (click)="openPopUp()">
             <i class="fa fa-3x fa-plus"></i>
           </button>
         </li>
