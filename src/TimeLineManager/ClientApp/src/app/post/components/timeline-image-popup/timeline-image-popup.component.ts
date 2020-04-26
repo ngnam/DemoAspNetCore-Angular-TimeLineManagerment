@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-timeline-image-popup',
@@ -6,8 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./timeline-image-popup.component.scss']
 })
 export class TimelineImagePopupComponent implements OnInit {
-
-  constructor() { }
+  title = 'Upload photo';
+  constructor(public activeModal: NgbActiveModal) { }
 
   ngOnInit(): void {
   }

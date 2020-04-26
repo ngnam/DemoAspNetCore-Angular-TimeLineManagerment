@@ -17,6 +17,7 @@
 
     .list-post-types-item {
       li {
+        margin-right: 2px;
         background-color: transparent;
         border: 0;
         filter: alpha(opacity=50);
@@ -30,6 +31,9 @@
         &:last-child {
           border: 0;
           border-radius: 0;
+        }
+        &:last-child {
+          margin-right: 0;
         }
         &.actived,
         &:hover {

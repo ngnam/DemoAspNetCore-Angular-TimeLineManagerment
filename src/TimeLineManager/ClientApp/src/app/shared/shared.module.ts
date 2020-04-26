@@ -8,7 +8,8 @@ import {
   NgbDateParserFormatter,
   NgbTimeAdapter,
   NgbPopoverModule,
-  NgbTooltipModule
+  NgbTooltipModule,
+  NgbModalModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { CustomAdapter, CustomDateParserFormatter } from './adapters/datepicker.adapter';
 import { DatetimeSinceFormatPipe } from './pipes/datetime-since-format.pipe';
@@ -23,7 +24,8 @@ import { NgbTimeStringAdapter } from './adapters/timepicker.adapter';
     NgbDatepickerModule,
     NgbTimepickerModule,
     NgbPopoverModule,
-    NgbTooltipModule
+    NgbTooltipModule,
+    NgbModalModule
   ],
   declarations: [
     DatetimeSinceFormatPipe,
@@ -42,6 +44,7 @@ import { NgbTimeStringAdapter } from './adapters/timepicker.adapter';
     NgbTimepickerModule,
     NgbPopoverModule,
     NgbTooltipModule,
+    NgbModalModule,
     // pipes
     DatetimeSinceFormatPipe,
     // directives

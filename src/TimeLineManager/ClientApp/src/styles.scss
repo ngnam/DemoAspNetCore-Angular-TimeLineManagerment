@@ -1,0 +1,67 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+code {
+  color: #e01a76;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+button.close {
+  outline: none;
+}
+
+.helper-container {
+  small {
+    display: block;
+  }
+}
+.timeline-item {
+  p {
+    margin-bottom: 0;
+    padding-bottom: 0.5em;
+  }
+}
+
+.timeline-popup-item {
+  .custom-file {
+    .custom-file-label::after {
+      left: 0;
+      text-align: left;
+      background-color: #fff;
+    }
+  }
+}
+
+/****************
+Popup modal detail
+****************/
+@media only screen and (max-width: 600px) {
+  .eleCustomModalClass .modal-dialog {
+    margin: 0;
+    max-width: 100vw;
+  }
+  .eleCustomModalClass .modal-dialog .modal-content {
+    height: 100vh;
+    border-radius: 0px !important;
+    border: 0;
+  }
+}
+
+.p-8 {
+  padding: 8rem!important;
+}
+
+.border-color-custom1 {
+  border-color: #ced4da;
+}
+
+
