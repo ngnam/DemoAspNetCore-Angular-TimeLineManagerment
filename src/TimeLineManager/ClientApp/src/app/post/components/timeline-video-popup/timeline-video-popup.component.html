@@ -14,11 +14,11 @@
 
         <div class="input-group mb-3">
           <div class="custom-file">
-            <input type="file" class="custom-file-input" placeholder="Chọn file">
+            <input #Video type="file" class="custom-file-input" placeholder="Chọn file" (change)="selectFile($event)">
             <label class="custom-file-label">Choose file</label>
           </div>
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary border-color-custom1" type="button"><i class="fa fa-plus"></i></button>
+            <button class="btn btn-outline-secondary border-color-custom1" type="button" [disabled]="Video.value=='' || !checkFileUpload" ngbTooltip="Upload" (click)="onSubmit()"><i class="fa fa-plus"></i></button>
           </div>
         </div>
       </div>
@@ -36,3 +36,5 @@
 <div class="modal-footer justify-content-center">
   <button type="button" class="btn btn-outline-secondary" (click)="activeModal.dismiss('Cancel click')">Cancel</button>
 </div>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

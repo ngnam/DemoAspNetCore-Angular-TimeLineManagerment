@@ -1,14 +1,30 @@
-<div class="timeline-item card mb-3">
-  <div class="row no-gutters">
+<div class="timeline-video-item card mb-3">
+  <div class="row no-gutters" *ngIf="!video; else renderItemTmp">
     <div class="col text-center p-3">
       <p class="font-weight-bold text-success">Upload video</p>
       <button class="btn btn-outline-secondary border border-light" type="button" type="button" (click)="openPopUp()">
         <i class="fa fa-play-circle-o fa-2x"></i>
       </button>
     </div>
-    <!-- render item  -->
-
   </div>
+   <!-- render item  -->
+   <ng-template #renderItemTmp>
+    <div class="row no-gutters">
+      <ul class="list-group list-group-horizontal timeline-image-item">
+        <li class="list-group-item">
+          <span class="close" aria-label="Close" (click)="removeItem(video)">
+            &times;
+          </span>
+          <video width="320" height="240" controls>
+            <source src="/video/{{ video.thumb }}" type="video/mp4" />
+            <source src="/video/{{ video.thumb }}" type="video/ogg" />
+            Your browser does not support the video tag.
+          </video>
+        </li>
+      </ul>
+
+    </div>
+  </ng-template>
 </div>
 
 <div class="helper-container">

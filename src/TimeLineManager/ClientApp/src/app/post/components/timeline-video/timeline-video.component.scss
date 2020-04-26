@@ -1,0 +1,29 @@
+:host {
+  .timeline-video-item {
+    li {
+      position: relative;
+      margin-right: 2px;
+      background-color: transparent;
+      border: 0;
+      padding: 10px;
+      &:first-child,
+      &:last-child {
+        border: 0;
+        border-radius: 0;
+      }
+      &:last-child {
+        margin-right: 0;
+      }
+      span.close {
+        position: absolute;
+        right: -25px;
+        top: 0;
+        cursor: pointer;
+        background: transparent;
+        width: 25px;
+        height: 25px;
+        text-align: center;
+      }
+    }
+  }
+}

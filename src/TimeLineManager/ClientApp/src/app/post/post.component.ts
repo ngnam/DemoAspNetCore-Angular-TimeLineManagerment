@@ -114,6 +114,7 @@ export class PostComponent implements OnInit, OnDestroy {
         this.postModel.sticker = null;
         const { TimelineVideoComponent } = await import('./components/timeline-video/timeline-video.component');
         const crVideo = this.createComponentLazyload(TimelineVideoComponent);
+        crVideo.instance.getVideo().pipe(takeUntil(this.unsubcribe$)).subscribe(data => this.postModel.video = data);
         break;
       case PostType.COUPON:
         this.postModel.video = null;

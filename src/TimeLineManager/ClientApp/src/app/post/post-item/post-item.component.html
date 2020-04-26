@@ -15,12 +15,11 @@
     <!-- post type VIDEO -->
     <div class="row no-gutters" *ngSwitchCase="postType.VIDEO">
       <div class="col" style="max-width: 200px;">
-        <img
-          [src]="item.video.thumb"
-          class="card-img"
-          default="https://via.placeholder.com/150"
-          alt=""
-        />
+        <video width="320" height="240" autoplay>
+          <source src="/video/{{ item.video.thumb }}" type="video/mp4" />
+          <source src="/video/{{ item.video.thumb }}" type="video/ogg" />
+          Your browser does not support the video tag.
+        </video>
       </div>
     </div>
 
@@ -40,7 +39,8 @@
           <p class="card-text">{{ item?.coupon.status }}</p>
           <p class="card-text">
             <small class="text-muted"
-              >Start Date: {{ item?.coupon.startDate | datetimeSinceFormat }}</small
+              >Start Date:
+              {{ item?.coupon.startDate | datetimeSinceFormat }}</small
             >
             <small class="text-muted"
               >End Date: {{ item?.coupon.endDate | datetimeSinceFormat }}</small
@@ -96,7 +96,8 @@
           <p class="card-text">{{ item?.survey.status }}</p>
           <p class="card-text">
             <small class="text-muted"
-            >Start Date: {{ item?.survey.startDate | datetimeSinceFormat }}</small
+              >Start Date:
+              {{ item?.survey.startDate | datetimeSinceFormat }}</small
             >
             <small class="text-muted"
               >End Date: {{ item?.survey.endDate | datetimeSinceFormat }}</small
@@ -105,6 +106,5 @@
         </div>
       </div>
     </div>
-
   </div>
 </div>
