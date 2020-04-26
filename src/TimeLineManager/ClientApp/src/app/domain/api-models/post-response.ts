@@ -3,16 +3,14 @@ enum Status {
   INACTIVE = 'INACTIVE',
 }
 
-interface Image {
-  id?: number;
+export interface Image {
   thumb: string; // url size 100x100
   original: string; // url fullsize
   width: number;
   height: number;
 }
 
-interface Video {
-  id?: number;
+export interface Video {
   thumb: string;
   original: string;
   width: number;

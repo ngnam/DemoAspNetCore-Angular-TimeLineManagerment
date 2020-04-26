@@ -9,12 +9,14 @@ import {
   NgbTimeAdapter,
   NgbPopoverModule,
   NgbTooltipModule,
-  NgbModalModule
+  NgbModalModule,
+  NgbToastModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { CustomAdapter, CustomDateParserFormatter } from './adapters/datepicker.adapter';
 import { DatetimeSinceFormatPipe } from './pipes/datetime-since-format.pipe';
 import { DefaultImageDirective } from './directives/default-image.directive';
 import { NgbTimeStringAdapter } from './adapters/timepicker.adapter';
+import { ToastsContainer } from './components/toast-container/toast-container.component';
 
 @NgModule({
   imports: [
@@ -25,9 +27,11 @@ import { NgbTimeStringAdapter } from './adapters/timepicker.adapter';
     NgbTimepickerModule,
     NgbPopoverModule,
     NgbTooltipModule,
-    NgbModalModule
+    NgbModalModule,
+    NgbToastModule
   ],
   declarations: [
+    ToastsContainer,
     DatetimeSinceFormatPipe,
     DefaultImageDirective],
   providers: [
@@ -45,10 +49,13 @@ import { NgbTimeStringAdapter } from './adapters/timepicker.adapter';
     NgbPopoverModule,
     NgbTooltipModule,
     NgbModalModule,
+    NgbToastModule,
     // pipes
     DatetimeSinceFormatPipe,
     // directives
-    DefaultImageDirective
+    DefaultImageDirective,
+    // components
+    ToastsContainer
   ],
   entryComponents: [],
 })

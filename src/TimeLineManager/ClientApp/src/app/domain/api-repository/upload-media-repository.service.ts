@@ -6,17 +6,17 @@ import { UploadMediaResponse } from '../api-models/upload-media-response';
 import { HttpApiService } from 'src/app/core/services/http-api.service';
 
 const router = {
-  uploadFile: 'file/upload'
+  uploadFile: 'UploadMedia/uploadfile'
 };
 
 @Injectable({ providedIn: 'root' })
 export class UploadMediaRepositoryService extends UploadMediaRepository<UploadMediaResponse> {
 
   // single upload file
-  uploadFile(fileToUpload: File, type?: string): Observable<UploadMediaResponse> {
+  uploadFile(fileToUpload: File, type: string): Observable<UploadMediaResponse> {
     const formData: FormData = new FormData();
-    formData.append(type, fileToUpload, fileToUpload.name);
-    formData.append('type', type);
+
+    formData.append(type.toLowerCase(), fileToUpload, fileToUpload.name);
     return this.httpClient.post(router.uploadFile, formData);
   }
 

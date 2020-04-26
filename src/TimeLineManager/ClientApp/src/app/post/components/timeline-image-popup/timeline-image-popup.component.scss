@@ -1,0 +1,9 @@
+:host {
+  img#preview {
+    max-height: 250px;
+    display: none;
+    &.show {
+      display: block;
+    }
+  }
+}

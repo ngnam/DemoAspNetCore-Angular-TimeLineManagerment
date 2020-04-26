@@ -1,10 +1,9 @@
-enum MediaType {
+export enum MediaType {
   PHOTO = 'PHOTO',
   VIDEO = 'VIDEO',
 }
 
-interface Media {
-  id: number;
+export interface Media {
   type: MediaType;
   thumb: string;
   original: string;

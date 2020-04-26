@@ -1,4 +1,4 @@
-interface Link {
+export interface Link {
   id: number;
   url: string; // https://line.me
   title: string; // "LINE : Free Calls & Messages",

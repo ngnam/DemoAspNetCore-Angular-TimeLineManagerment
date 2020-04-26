@@ -143,10 +143,12 @@ export function isImage(filename: string) {
 export function isVideo(filename: string) {
   const ext = getExtension(filename);
   switch (ext.toLowerCase()) {
-    case 'm4v':
-    case 'avi':
-    case 'mpg':
+    // MP4, M4V, MOV, AVI, WMV
     case 'mp4':
+    case 'm4v':
+    case 'mov':
+    case 'avi':
+    case 'wmv':
     // etc
     return true;
   }

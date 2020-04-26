@@ -1,0 +1,25 @@
+:host {
+  .timeline-image-item {
+    li {
+      margin-right: 2px;
+      background-color: transparent;
+      border: 0;
+      padding: 0;
+      &:first-child,
+      &:last-child {
+        border: 0;
+        border-radius: 0;
+      }
+      &:last-child {
+        margin-right: 0;
+      }
+      img,
+      button {
+        max-width: 150px;
+        min-width: 150px;
+        min-height: 150px;
+        max-height: 150px;
+      }
+    }
+  }
+}

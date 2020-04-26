@@ -6,6 +6,7 @@ import { NgbCalendar, NgbDateAdapter, NgbTimeAdapter, NgbTimepicker } from '@ng-
 import { Post, PostStatus, PostType, PostDTOModel } from '../domain/api-models/post-response';
 import { toTimestampFromDate, toTimeFormat, getTimeZoneInfoDisplayName } from '../core/base/helpers';
 import { NgForm } from '@angular/forms';
+import { PostRepositoryMapper } from '../domain/api-repository/mappers/post-repository.mapper';
 
 @Component({
   selector: 'app-post',
@@ -30,12 +31,7 @@ export class PostComponent implements OnInit, OnDestroy {
 
   @ViewChild('contentContainer', { read: ViewContainerRef }) contentContainer: ViewContainerRef;
 
-  private postTimeLineModel: Post = {
-    id: 0,
-    status: PostStatus.DRAFTED,
-    type: PostType.IMAGE,
-    scheduledTime: toTimestampFromDate(new Date())
-  };
+  private readonly mapper = new PostRepositoryMapper();
 
   constructor(
     private route: ActivatedRoute,
@@ -80,47 +76,78 @@ export class PostComponent implements OnInit, OnDestroy {
   }
 
   onSavePublish(f: NgForm) {
+    if (f.form.invalid) { return; }
     this.postModel.postStatus = PostStatus.PUBLISHED;
-    console.log(this.postModel);
     // mapTo
-
+    const postResponse = this.mapper.mapTo(this.postModel);
     // call api
+    console.log(postResponse);
   }
 
   onSaveDraft(f: NgForm) {
-    if (f.form.valid) {
-      this.postModel.postStatus = PostStatus.DRAFTED;
-      console.log(this.postModel);
-    }
+    if (f.form.invalid) { return; }
+    this.postModel.postStatus = PostStatus.DRAFTED;
     // mapTo
-
+    const postResponse = this.mapper.mapTo(this.postModel);
     // call api
+    console.log(postResponse);
   }
 
   async loadComponent(contentType?: PostType) {
     this.postModel.postType = contentType;
     switch (contentType) {
       case PostType.IMAGE:
+        this.postModel.coupon = null;
+        this.postModel.link = null;
+        this.postModel.video = null;
+        this.postModel.survey = null;
+        this.postModel.sticker = null;
         const { TimelineImageComponent } = await import('./components/timeline-image/timeline-image.component');
         const crImage = this.createComponentLazyload(TimelineImageComponent);
+        crImage.instance.getImages().pipe(takeUntil(this.unsubcribe$)).subscribe(data => this.postModel.images = data);
         break;
       case PostType.VIDEO:
+        this.postModel.coupon = null;
+        this.postModel.link = null;
+        this.postModel.images = null;
+        this.postModel.survey = null;
+        this.postModel.sticker = null;
         const { TimelineVideoComponent } = await import('./components/timeline-video/timeline-video.component');
         const crVideo = this.createComponentLazyload(TimelineVideoComponent);
         break;
       case PostType.COUPON:
+        this.postModel.video = null;
+        this.postModel.link = null;
+        this.postModel.images = null;
+        this.postModel.survey = null;
+        this.postModel.sticker = null;
         const { TimelineCouponComponent } = await import('./components/timeline-coupon/timeline-coupon.component');
         const crCoupon = this.createComponentLazyload(TimelineCouponComponent);
         break;
       case PostType.LINK:
+        this.postModel.video = null;
+        this.postModel.coupon = null;
+        this.postModel.images = null;
+        this.postModel.survey = null;
+        this.postModel.sticker = null;
         const { TimelineLinkComponent } = await import('./components/timeline-link/timeline-link.component');
         const crLink = this.createComponentLazyload(TimelineLinkComponent);
         break;
       case PostType.STICKER:
+        this.postModel.video = null;
+        this.postModel.coupon = null;
+        this.postModel.images = null;
+        this.postModel.survey = null;
+        this.postModel.link = null;
         const { TimelineStickerComponent } = await import('./components/timeline-sticker/timeline-sticker.component');
         const crSticker = this.createComponentLazyload(TimelineStickerComponent);
         break;
       case PostType.SURVEY:
+        this.postModel.video = null;
+        this.postModel.coupon = null;
+        this.postModel.images = null;
+        this.postModel.sticker = null;
+        this.postModel.link = null;
         const { TimelineSurveyComponent } = await import('./components/timeline-survey/timeline-survey.component');
         const crSurvey = this.createComponentLazyload(TimelineSurveyComponent);
       break;
