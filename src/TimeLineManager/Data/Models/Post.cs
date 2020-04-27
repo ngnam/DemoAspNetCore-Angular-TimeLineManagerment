@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,14 +20,14 @@ namespace TimeLineManager.Data.Models
         public int Id { get; set; } // column int
         public string Type { get; set; } // column string
         public string Status { get; set; } // column string
-        public long? ScheduledTime { get; set; } // column double
+        public double? ScheduledTime { get; set; } // column double
         public string Images { get; set; }  // column JSON_VALUE("thumb") image.thumb
         public string Video { get; set; }  // column JSON_VALUE
         public string Sticker { get; set; } // column JSON_VALUE
         public string Coupon { get; set; }  // column JSON_VALUE
         public string Link { get; set; }  // column JSON_VALUE
         public string Survey { get; set; }  // column JSON_VALUE
-        public long? CreatedAt { get; set; } // column double
-        public long? UpdatedAt { get; set; } // column double
+        public double? CreatedAt { get; set; } // column double
+        public double? UpdatedAt { get; set; } // column double
     }
 }

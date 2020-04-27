@@ -3,9 +3,10 @@ import { ListCouponResponse } from '../api-models/list-coupon-response';
 import { Injectable } from '@angular/core';
 import { CouponRepository } from './coupon-repository';
 import { HttpApiService } from 'src/app/core/services/http-api.service';
+import { HttpParams } from '@angular/common/http';
 
 const router = {
-  getAll: 'coupon/getAll'
+  getAll: 'api/Coupon'
 };
 
 @Injectable({
@@ -13,8 +14,12 @@ const router = {
 })
 export class CouponRepositoryService extends CouponRepository<ListCouponResponse> {
 
-  getAll(): Observable<ListCouponResponse> {
-    return this.httpClient.get(router.getAll);
+  getAll(pageIndex?: number, pageSize?: number): Observable<ListCouponResponse> {
+    const params: HttpParams = new HttpParams();
+    params.append('pageIndex', `${pageIndex}`);
+    params.append('pageSize', `${pageSize}`);
+
+    return this.httpClient.get(router.getAll, params);
   }
 
   constructor(private httpClient: HttpApiService) {

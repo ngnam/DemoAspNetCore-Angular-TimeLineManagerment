@@ -4,7 +4,9 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class GlobalErrorHandlerService implements ErrorHandler {
-  constructor(private injector: Injector) {}
+  constructor(
+    private injector: Injector,
+  ) {}
   handleError(error: any) {
     const router = this.injector.get(Router);
     console.log('URL: ' + router.url);

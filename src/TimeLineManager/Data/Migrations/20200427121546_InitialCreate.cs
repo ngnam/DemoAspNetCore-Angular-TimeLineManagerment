@@ -12,8 +12,8 @@ namespace TimeLineManager.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    StartDate = table.Column<long>(nullable: false),
-                    EndDate = table.Column<long>(nullable: false),
+                    StartDate = table.Column<double>(nullable: true),
+                    EndDate = table.Column<double>(nullable: true),
                     Status = table.Column<string>(maxLength: 10, nullable: true),
                     Title = table.Column<string>(maxLength: 500, nullable: true),
                     Thumbnail = table.Column<string>(maxLength: 500, nullable: true)
@@ -47,15 +47,15 @@ namespace TimeLineManager.Data.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Type = table.Column<string>(maxLength: 10, nullable: false),
                     Status = table.Column<string>(maxLength: 10, nullable: false),
-                    ScheduledTime = table.Column<long>(nullable: true),
+                    ScheduledTime = table.Column<double>(nullable: true),
                     Images = table.Column<string>(type: "text", nullable: true),
                     Video = table.Column<string>(type: "text", nullable: true),
                     Sticker = table.Column<string>(type: "text", nullable: true),
                     Coupon = table.Column<string>(type: "text", nullable: true),
                     Link = table.Column<string>(type: "text", nullable: true),
                     Survey = table.Column<string>(type: "text", nullable: true),
-                    CreatedAt = table.Column<long>(nullable: true),
-                    UpdatedAt = table.Column<long>(nullable: true)
+                    CreatedAt = table.Column<double>(nullable: true),
+                    UpdatedAt = table.Column<double>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -81,8 +81,8 @@ namespace TimeLineManager.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    StartDate = table.Column<long>(nullable: false),
-                    EndDate = table.Column<long>(nullable: false),
+                    StartDate = table.Column<double>(nullable: true),
+                    EndDate = table.Column<double>(nullable: true),
                     Status = table.Column<string>(maxLength: 10, nullable: true),
                     Title = table.Column<string>(maxLength: 500, nullable: true),
                     Thumbnail = table.Column<string>(maxLength: 500, nullable: true)

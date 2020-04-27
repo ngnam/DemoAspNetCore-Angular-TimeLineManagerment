@@ -7,18 +7,36 @@ export class PostRepositoryMapper extends Mapper<Post, PostDTOModel> {
     const data: PostDTOModel = {
       id: param.id || 0,
       isPublishNow: 1,
-      coupon: param.coupon || null,
-      images: param.images || null,
-      link: param.link || null,
-      sticker: param.sticker || null,
-      survey: param.survey || null,
-      video: param.video || null,
-      postStatus: param.status || null,
-      postType: param.type || null,
+      postStatus: param.status,
+      postType: param.type,
+      createdAt: param.createdAt,
+      updatedAt: param.updatedAt
     };
-    const createAt: Date = fromTimestamp(param.scheduledTime); // time scheduled post
-    data.publishDate = toDateFormat(createAt);
-    data.publishTime = toTimeFormat(createAt);
+    const scheduledTime: Date = fromTimestamp(param.scheduledTime); // time scheduled post
+    data.publishDate = toDateFormat(scheduledTime);
+    data.publishTime = toTimeFormat(scheduledTime);
+
+    switch (param.type) {
+      case PostType.IMAGE:
+        data.images = param.images;
+        break;
+      case PostType.COUPON:
+        data.coupon = param.coupon;
+        break;
+      case PostType.LINK:
+        data.link = param.link;
+        break;
+      case PostType.STICKER:
+        data.sticker = param.sticker;
+        break;
+      case PostType.SURVEY:
+        data.survey = param.survey;
+        break;
+      case PostType.VIDEO:
+        data.video = param.video;
+        break;
+    }
+
     return data;
   }
 
@@ -50,21 +68,18 @@ export class PostRepositoryMapper extends Mapper<Post, PostDTOModel> {
         break;
     }
 
-    // create_at
+    // createAt
+    data.createdAt = toTimestampFromDate(new Date());
+    // updatedAt
+    data.updatedAt = toTimestampFromDate(new Date());
+
     // 1: publishNow, 2: publishSchedule
     if (param.isPublishNow === 1) {
-      data.createdAt = toTimestampFromDate(new Date());
       data.scheduledTime = data.createdAt;
-    }
-
-    if (param.isPublishNow === 2 && param.publishDate && param.publishTime) {
+    } else if (param.isPublishNow === 2 && param.publishDate && param.publishTime) {
       const dateTimeParse = `${param.publishDate}T${param.publishTime}`;
-      data.createdAt = toTimestamp(dateTimeParse);
-      data.scheduledTime = data.createdAt;
+      data.scheduledTime = toTimestamp(dateTimeParse);
     }
-
-    // updatedAt
-    data.updatedAt = data.createdAt;
 
     return data;
   }

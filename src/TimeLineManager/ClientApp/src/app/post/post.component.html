@@ -6,17 +6,34 @@
   novalidate
 >
   <div class="form-group">
-    <h3>Timeline post</h3>
+    <h3>{{ title }}</h3>
   </div>
   <hr class="mb-5" />
   <div class="form-row">
     <div class="form-group col">
-      <button type="button" class="btn btn-secondary" (click)="onSaveDraft(f)" [disabled]="f.form.invalid">
+      <button type="button" class="btn btn-secondary" (click)="onSaveDraft(f)" [disabled]="
+        f.form.invalid || !postModel.publishTime || postModel.publishTime === '' ||
+        (postModel.postType === postType.IMAGE && postModel.images === null) ||
+        (postModel.postType === postType.VIDEO && postModel.video === null) ||
+        (postModel.postType === postType.STICKER && postModel.sticker === null) ||
+        (postModel.postType === postType.SURVEY && postModel.survey === null) ||
+        (postModel.postType === postType.COUPON && postModel.coupon === null) ||
+        (postModel.postType === postType.LINK && postModel.link === null)
+        ">
         {{ btnSaveDraft }}
       </button>
     </div>
     <div class="form-group col text-right">
-      <button type="submit" class="btn btn-success" [disabled]="f.form.invalid">{{ postModel.isPublishNow === 1 ? btnSubmit : 'Schedule' }}</button>
+      <button class="btn btn-outline-secondary mr-2" (click)="onCancel()" *ngIf="id && id !== 0">Cancel</button>
+      <button type="submit" class="btn btn-success" [disabled]="
+      f.form.invalid || !postModel.publishTime || postModel.publishTime === ''||
+      (postModel.postType === postType.IMAGE && postModel.images === null) ||
+      (postModel.postType === postType.VIDEO && postModel.video === null) ||
+      (postModel.postType === postType.STICKER && postModel.sticker === null) ||
+      (postModel.postType === postType.SURVEY && postModel.survey === null) ||
+      (postModel.postType === postType.COUPON && postModel.coupon === null) ||
+      (postModel.postType === postType.LINK && postModel.link === null)
+      ">{{ postModel.isPublishNow === 1 ? btnSubmit : 'Schedule' }}</button>
     </div>
   </div>
 
@@ -68,8 +85,10 @@
             placeholder="HH:mm"
             name="publishTime"
             required
+            type="text"
+            forceTrim
             #publishTime="ngModel"
-            [(ngModel)]="postModel.publishTime"/>
+            [(ngModel)]="postModel.publishTime" />
 
           <div class="input-group-append">
             <button
@@ -120,3 +139,4 @@
 
 {{ postModel | json }}
 
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

@@ -1,51 +1,74 @@
 <div *ngIf="item">
-  <div class="post-item card mb-3" [ngSwitch]="item.type">
-    <!-- post type IMAGE -->
-    <div class="row no-gutters" *ngSwitchCase="postType.IMAGE">
-      <div class="col" *ngFor="let image of item.images">
-        <img
-          [src]="image.thumb"
-          class="card-img"
-          default="https://via.placeholder.com/150"
-          alt=""
-        />
+  <div [ngSwitch]="item.type" class="post-item">
+    <div class="card" *ngSwitchCase="postType.IMAGE">
+      <div class="card-deck">
+        <p *ngIf="item.images && item.images.length === 0; else loadImages">Post không có ảnh.</p>
+        <ng-template #loadImages>
+          <div class="card border-reset" *ngFor="let image of item.images; let i = index;">
+            <img src="/photo/{{ image.thumb }}" class="card-img-top" alt="image.thumb" default="/assets/150.png">
+            <div class="card-body">
+              <h5 class="card-title">Time line Image</h5>
+              <p class="card-text">This is a image test</p>
+              <p class="card-text"><small class="text-muted">Last updated {{ item.createdAt * 1000 | datetimeSinceFormat }} ago.</small></p>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+      <div class="card-footer">
+        <button class="text-muted btn btn-light mr-2" (click)="onEdit(item.id)"><i class="fa fa-pencil"></i></button>
+        <button class="text-muted btn btn-light" (click)="onDeleteItem(item.id)"><i class="fa fa-times"></i></button>
       </div>
     </div>
-
     <!-- post type VIDEO -->
-    <div class="row no-gutters" *ngSwitchCase="postType.VIDEO">
-      <div class="col" style="max-width: 200px;">
-        <video width="320" height="240" autoplay>
+    <div class="card-deck" *ngSwitchCase="postType.VIDEO">
+      <p *ngIf="!item.video; else loadVideo">Chưa có video.</p>
+      <ng-template #loadVideo>
+      <div class="card">
+        <video width="320" height="240" controls preload="none" class="card-img-top">
           <source src="/video/{{ item.video.thumb }}" type="video/mp4" />
           <source src="/video/{{ item.video.thumb }}" type="video/ogg" />
           Your browser does not support the video tag.
         </video>
+        <div class="card-body">
+          <h5 class="card-title">Time line Video</h5>
+          <p class="card-text">This is a video test</p>
+          <p class="card-text"><small class="text-muted">Last updated {{ item.createdAt * 1000 | datetimeSinceFormat }} ago.</small></p>
+        </div>
+        <div class="card-footer">
+          <button class="text-muted btn btn-light mr-2" (click)="onEdit(item.id)"><i class="fa fa-pencil"></i></button>
+          <button class="text-muted btn btn-light" (click)="onDeleteItem(item.id)"><i class="fa fa-times"></i></button>
+        </div>
       </div>
+      </ng-template>
     </div>
 
     <!-- post type COUPON -->
     <div class="row no-gutters" *ngSwitchCase="postType.COUPON">
       <div class="col-md-4">
         <img
-          [src]="item?.coupon.thumbnail"
+          [src]="item?.coupon?.thumbnail"
           class="card-img"
           alt="{{ item?.coupon.title }}"
-          default="https://via.placeholder.com/150"
+          default="/assets/150.png"
         />
       </div>
       <div class="col-md-8">
         <div class="card-body">
-          <h5 class="card-title">{{ item?.coupon.title }}</h5>
-          <p class="card-text">{{ item?.coupon.status }}</p>
+          <h5 class="card-title">{{ item?.coupon?.title }}</h5>
+          <p class="card-text">{{ item?.coupon?.status }}</p>
           <p class="card-text">
             <small class="text-muted"
               >Start Date:
-              {{ item?.coupon.startDate | datetimeSinceFormat }}</small
+              {{ item?.coupon?.startDate * 1000 | datetimeSinceFormat }}</small
             >
             <small class="text-muted"
-              >End Date: {{ item?.coupon.endDate | datetimeSinceFormat }}</small
+              >End Date: {{ item?.coupon?.endDate * 1000 | datetimeSinceFormat }}</small
             >
           </p>
+        </div>
+        <div class="card-footer">
+          <button class="text-muted btn btn-light mr-2" (click)="onEdit(item.id)"><i class="fa fa-pencil"></i></button>
+          <button class="text-muted btn btn-light" (click)="onDeleteItem(item.id)"><i class="fa fa-times"></i></button>
         </div>
       </div>
     </div>
@@ -53,31 +76,44 @@
     <div class="row no-gutters" *ngSwitchCase="postType.LINK">
       <div class="col-md-4">
         <img
-          [src]="item?.link.thumbnail"
+          [src]="item?.link?.thumbnail"
           class="card-img"
-          alt="{{ item?.link.title }}"
-          default="https://via.placeholder.com/150"
+          alt="{{ item?.link?.title }}"
+          default="/assets/150.png"
         />
       </div>
       <div class="col-md-8">
         <div class="card-body">
-          <h5 class="card-title">{{ item?.link.title }}</h5>
-          <p class="card-text">{{ item?.link.desc }}</p>
+          <h5 class="card-title">{{ item?.link?.title }}</h5>
+          <p class="card-text">{{ item?.link?.desc }}</p>
           <p class="card-text">
-            <a href="{{ item?.link.url }}" target="_blank">Read more.</a>
+            <a href="{{ item?.link?.url }}" target="_blank">Read more.</a>
           </p>
+        </div>
+        <div class="card-footer">
+          <button class="text-muted btn btn-light mr-2" (click)="onEdit(item.id)"><i class="fa fa-pencil"></i></button>
+          <button class="text-muted btn btn-light" (click)="onDeleteItem(item.id)"><i class="fa fa-times"></i></button>
         </div>
       </div>
     </div>
 
-    <div class="row no-gutters" *ngSwitchCase="postType.STICKER">
-      <div class="col">
+    <div class="card-deck" *ngSwitchCase="postType.STICKER">
+      <div class="card">
         <img
           [src]="item?.sticker.url"
-          class="card-img"
-          alt="{{ item?.link.title }}"
-          default="https://via.placeholder.com/150"
+          class="card-img-top"
+          alt="{{ item?.link?.title }}"
+          default="/assets/150.png"
         />
+        <div class="card-body">
+          <h5 class="card-title">Time line Video</h5>
+          <p class="card-text">This is a video test</p>
+          <p class="card-text"><small class="text-muted">Last updated {{ item.createdAt * 1000 | datetimeSinceFormat }} ago.</small></p>
+        </div>
+        <div class="card-footer">
+          <button class="text-muted btn btn-light mr-2" (click)="onEdit(item.id)"><i class="fa fa-pencil"></i></button>
+          <button class="text-muted btn btn-light" (click)="onDeleteItem(item.id)"><i class="fa fa-times"></i></button>
+        </div>
       </div>
     </div>
 
@@ -87,7 +123,7 @@
           [src]="item?.survey.thumbnail"
           class="card-img"
           alt="{{ item?.survey.title }}"
-          default="https://via.placeholder.com/150"
+          default="/assets/150.png"
         />
       </div>
       <div class="col-md-8">
@@ -95,14 +131,17 @@
           <h5 class="card-title">{{ item?.survey.title }}</h5>
           <p class="card-text">{{ item?.survey.status }}</p>
           <p class="card-text">
-            <small class="text-muted"
-              >Start Date:
+            <small class="text-muted">Start Date:
               {{ item?.survey.startDate | datetimeSinceFormat }}</small
             >
             <small class="text-muted"
               >End Date: {{ item?.survey.endDate | datetimeSinceFormat }}</small
             >
           </p>
+        </div>
+        <div class="card-footer">
+          <button class="text-muted btn btn-light mr-2" (click)="onEdit(item.id)"><i class="fa fa-pencil"></i></button>
+          <button class="text-muted btn btn-light" (click)="onDeleteItem(item.id)"><i class="fa fa-times"></i></button>
         </div>
       </div>
     </div>

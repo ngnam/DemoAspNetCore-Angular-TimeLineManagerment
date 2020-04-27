@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgbModal, NgbModalOptions, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { ngbModalOptionsConfig } from 'src/app/core/configs/ngb-modal-options.config';
 import { Media } from 'src/app/domain/api-models/upload-media-response';
@@ -15,8 +15,9 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./timeline-video.component.scss']
 })
 export class TimelineVideoComponent implements OnInit {
-  video: Video;
-  private video$: BehaviorSubject<Video> = new BehaviorSubject(null);
+
+  @Input() video: Video;
+  @Output() UploadVideo: EventEmitter<Video> = new EventEmitter();
 
   private optionsModal: NgbModalOptions = ngbModalOptionsConfig;
   constructor(private modalService: NgbModal) { }
@@ -24,18 +25,14 @@ export class TimelineVideoComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getVideo() {
-    return this.video$.asObservable();
-  }
-
-  setVideo(video: Video) {
-    this.video$.next(video);
+  addVideo(video: Video) {
+    this.UploadVideo.emit(video);
   }
 
   removeItem(video: Video) {
     if (this.video.thumb === video.thumb) {
       this.video = null;
-      this.setVideo(this.video);
+      this.addVideo(this.video);
     }
   }
 
@@ -56,7 +53,7 @@ export class TimelineVideoComponent implements OnInit {
             duration: result.duration
           };
           this.video = item;
-          this.video$.next(this.video);
+          this.UploadVideo.emit(this.video);
         }
       },
       (reason) => console.log('Dismissed: ', this.getDismissReason(reason)));

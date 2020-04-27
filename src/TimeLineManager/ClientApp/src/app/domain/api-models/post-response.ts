@@ -64,6 +64,21 @@ export enum PostType {
   SURVEY = 'SURVEY',
 }
 
+export interface PostParseJSON {
+  id?: number; // column int
+  type: string; // column string
+  status: string; // column string
+  scheduledTime?: number; // column double
+  images?: string;  // column JSON_VALUE('thumb') image.thumb
+  video?: string;  // column JSON_VALUE
+  sticker?: string; // column JSON_VALUE
+  coupon?: string;  // column JSON_VALUE
+  link?: string;  // column JSON_VALUE
+  survey?: string;  // column JSON_VALUE
+  createdAt?: number; // column double
+  updatedAt?: number; // column double
+}
+
 export interface Post {
   id: number; // column int
   type: PostType; // column string
@@ -92,18 +107,27 @@ export interface PostDTOModel {
   coupon?: Coupon;
   link?: Link;
   survey?: Survey;
+  createdAt?: number; // column double
+  updatedAt?: number; // column double
 }
 
 export interface PostResponse {
   resultCode: number; // 1: success, 0: failed
-  resultData: Post;
+  resultData: PostParseJSON;
   errorDisplay: boolean;
   errorMessage: string;
 }
 
+interface List {
+  page: number;
+  total: number; // total rows/records
+  pageSize: number;
+  list: PostParseJSON[];
+}
+
 export interface PostListResponse {
   resultCode: number; // 1: success, 0: failed
-  resultData: Post[];
+  resultData: List;
   errorDisplay: boolean;
   errorMessage: string;
 }

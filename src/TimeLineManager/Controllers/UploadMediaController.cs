@@ -11,7 +11,7 @@ using TimeLineManager.Extensions;
 namespace TimeLineManager.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class UploadMediaController : ControllerBase
     {
         private readonly IWebHostEnvironment _env;
@@ -30,7 +30,7 @@ namespace TimeLineManager.Controllers
         [DisableRequestSizeLimit]
         public ActionResult<ApiResponse<Media>> UploadFile()
         {
-            var result = new ApiResponse<Media>(0, null, false, null);
+            var result = new ApiResponse<Media>(1, null, false, null);
             try
             {
                 // Get file Upload from HttpRequest FormData

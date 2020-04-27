@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { isImage } from 'src/app/core/base/helpers';
-import { ToastService } from 'src/app/shared/components/toast-container/toast-service';
 import { UploadMediaRepositoryService } from 'src/app/domain/api-repository/upload-media-repository.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ToastService } from 'src/app/shared/components/toast-container/toast-service';
 
 @Component({
   selector: 'app-timeline-image-popup',

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ngbModalOptionsConfig } from 'src/app/core/configs/ngb-modal-options.config';
 import { NgbModalOptions, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Media, MediaType } from 'src/app/domain/api-models/upload-media-response';
@@ -11,8 +11,8 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class TimelineImageComponent implements OnInit {
 
-  images: Image[] = [];
-  private images$: BehaviorSubject<Image[]> = new BehaviorSubject([]);
+  @Input() images: Image[] = [];
+  @Output() UploadImage: EventEmitter<Image[]> = new EventEmitter();
 
   private optionsModal: NgbModalOptions = ngbModalOptionsConfig;
   constructor(private modalService: NgbModal) { }
@@ -25,17 +25,9 @@ export class TimelineImageComponent implements OnInit {
   // + removeItem(item: Image)
   // + addItem(item: Image)
 
-  getImages() {
-    return this.images$.asObservable();
-  }
-
-  setImages(images: Image[]) {
-    this.images$.next(images);
-  }
-
   removeItem(image: Image) {
     this.images = this.images.filter(item => item.thumb !== image.thumb);
-    this.setImages(this.images);
+    this.UploadImage.emit(this.images);
   }
 
   async openPopUp() {
@@ -54,7 +46,7 @@ export class TimelineImageComponent implements OnInit {
             height: result.height
           };
           this.images.push(item);
-          this.images$.next(this.images);
+          this.UploadImage.emit(this.images);
         }
       },
       (reason) => console.log('Dismissed: ', this.getDismissReason(reason)));

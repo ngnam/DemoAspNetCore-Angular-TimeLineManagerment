@@ -10,8 +10,6 @@ const pad = (i: number): string => i < 10 ? `0${i}` : `${i}`;
 export class NgbTimeStringAdapter extends NgbTimeAdapter<string> {
 
   fromModel(value: string | null): NgbTimeStruct | null {
-    console.log(value);
-
     if (!value || (value && value === '')) {
       return null;
     }

@@ -1,43 +1,44 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpApiService } from '../../core/services/http-api.service';
-import { Post, PostResponse, PostListResponse } from '../api-models/post-response';
+import { Post, PostResponse, PostListResponse, PostParseJSON } from '../api-models/post-response';
 import { PostRepository } from './post-respository';
 import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 
 const router = {
-  getAll: 'post/getAll',
-  getById: 'post/getById',
-  create: 'post',
-  update: 'post',
-  delete: 'post'
+  getAll: 'api/Post',
+  getById: 'api/Post',
+  create: 'api/Post',
+  update: 'api/Post',
+  delete: 'api/Post'
 };
 
 @Injectable({
   providedIn: 'root',
 })
-export class PostRepositoryService extends PostRepository<Post> {
+export class PostRepositoryService extends PostRepository<PostParseJSON> {
 
-  getAll(): Observable<PostListResponse> {
-    return this.httpClient.get(router.getAll);
-  }
-
-  getById(id: number | string): Observable<PostResponse> {
+  getAll(pageIndex?: number, pageSize?: number): Observable<PostListResponse> {
     const params: HttpParams = new HttpParams();
-    params.append('id', id.toString());
-    return this.httpClient.get(router.getById, params);
+    params.append('pageIndex', `${pageIndex}`);
+    params.append('pageSize', `${pageSize}`);
+    return this.httpClient.get(router.getAll, params);
   }
 
-  create(param: Post) {
-    return this.httpClient.post(router.create, JSON.stringify(param));
+  getById(id: number): Observable<PostResponse> {
+    return this.httpClient.get(`${router.getById}/${id}`);
   }
 
-  update(id: number, param: Post) {
-    return this.httpClient.put(`${router.update}/${id}`, JSON.stringify(param));
+  create(param: PostParseJSON): Observable<PostResponse> {
+    return this.httpClient.post(router.create, param);
   }
 
-  delete(id: number) {
-    return this.httpClient.delete(`${router.update}/${id}`);
+  update(id: number, param: PostParseJSON): Observable<PostResponse> {
+    return this.httpClient.put(`${router.update}/${id}`, param);
+  }
+
+  delete(id: number): Observable<PostResponse> {
+    return this.httpClient.delete(`${router.delete}/${id}`);
   }
 
   constructor(private httpClient: HttpApiService) {

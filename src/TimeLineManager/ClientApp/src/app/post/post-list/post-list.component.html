@@ -1,6 +1,10 @@
 <ng-template #loading>
   <p>loadding....</p>
 </ng-template>
+
 <article class="post-container" *ngIf="items; else loading">
-  <app-post-item *ngFor="let item of items" [item]="item"></app-post-item>
+  <p *ngIf="items.length === 0; else loadItem">no data. &nbsp;<a class="btn btn-outline-primary" [routerLink]="'/post/create'">Thêm mới</a></p>
+  <app-post-item #loadItem *ngFor="let item of items" [item]="item" (removeItem)="onDeleteItem($event)"></app-post-item>
 </article>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

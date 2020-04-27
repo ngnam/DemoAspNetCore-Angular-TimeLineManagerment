@@ -22,11 +22,11 @@ namespace TimeLineManager.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("EndDate")
-                        .HasColumnType("INTEGER");
+                    b.Property<double?>("EndDate")
+                        .HasColumnType("REAL");
 
-                    b.Property<long>("StartDate")
-                        .HasColumnType("INTEGER");
+                    b.Property<double?>("StartDate")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("Status")
                         .HasColumnType("TEXT")
@@ -81,8 +81,8 @@ namespace TimeLineManager.Data.Migrations
                     b.Property<string>("Coupon")
                         .HasColumnType("text");
 
-                    b.Property<long?>("CreatedAt")
-                        .HasColumnType("INTEGER");
+                    b.Property<double?>("CreatedAt")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("Images")
                         .HasColumnType("text");
@@ -90,8 +90,8 @@ namespace TimeLineManager.Data.Migrations
                     b.Property<string>("Link")
                         .HasColumnType("text");
 
-                    b.Property<long?>("ScheduledTime")
-                        .HasColumnType("INTEGER");
+                    b.Property<double?>("ScheduledTime")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -109,8 +109,8 @@ namespace TimeLineManager.Data.Migrations
                         .HasColumnType("TEXT")
                         .HasMaxLength(10);
 
-                    b.Property<long?>("UpdatedAt")
-                        .HasColumnType("INTEGER");
+                    b.Property<double?>("UpdatedAt")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("Video")
                         .HasColumnType("text");
@@ -141,11 +141,11 @@ namespace TimeLineManager.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("EndDate")
-                        .HasColumnType("INTEGER");
+                    b.Property<double?>("EndDate")
+                        .HasColumnType("REAL");
 
-                    b.Property<long>("StartDate")
-                        .HasColumnType("INTEGER");
+                    b.Property<double?>("StartDate")
+                        .HasColumnType("REAL");
 
                     b.Property<string>("Status")
                         .HasColumnType("TEXT")

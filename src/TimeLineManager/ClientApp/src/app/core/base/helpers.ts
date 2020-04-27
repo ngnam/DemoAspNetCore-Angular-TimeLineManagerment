@@ -167,7 +167,7 @@ export function CheckFileSize(file: File, sizeLimit?: number) {
 
 export function timeSince(date: Date) {
 
-  const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
+  const seconds = Math.floor((<any>new Date() - <any>date) / 1000);
 
   let interval = Math.floor(seconds / 31536000);
 

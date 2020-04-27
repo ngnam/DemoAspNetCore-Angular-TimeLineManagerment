@@ -1,12 +1,16 @@
 import { Component, OnInit, OnDestroy, ViewChild, ViewContainerRef, ComponentFactoryResolver, Injector, Type, ComponentRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { NgbCalendar, NgbDateAdapter, NgbTimeAdapter, NgbTimepicker } from '@ng-bootstrap/ng-bootstrap';
-import { Post, PostStatus, PostType, PostDTOModel } from '../domain/api-models/post-response';
+import { Post, PostStatus, PostType, PostDTOModel, PostParseJSON } from '../domain/api-models/post-response';
 import { toTimestampFromDate, toTimeFormat, getTimeZoneInfoDisplayName } from '../core/base/helpers';
 import { NgForm } from '@angular/forms';
 import { PostRepositoryMapper } from '../domain/api-repository/mappers/post-repository.mapper';
+import { PostParserJSONMapper } from '../domain/api-repository/mappers/post-parseJSON.mapper';
+import { ToastService } from '../shared/components/toast-container/toast-service';
+import { OptionsToast } from '../core/configs/toast.config';
+import { PostRepositoryService } from '../domain/api-repository/post-repository.service';
 
 @Component({
   selector: 'app-post',
@@ -15,30 +19,42 @@ import { PostRepositoryMapper } from '../domain/api-repository/mappers/post-repo
 })
 export class PostComponent implements OnInit, OnDestroy {
 
+  title = 'Timeline post';
   btnSaveDraft = 'Save draft';
   btnSubmit = 'Publish';
 
+  postType = PostType;
   postModel: PostDTOModel = {
     isPublishNow: 1,
-    postType: PostType.IMAGE
+    postType: PostType.IMAGE,
+    images: null
   };
 
   GTMTime = getTimeZoneInfoDisplayName();
 
   PostTypeItems: { id: PostType; name: string; icon: string; order: number; }[] = [];
 
+  // the city object id, as fetched from the active route:
+  // It's NULL when we're adding a new post,
+  // and not NULL when we're editing an existing one.
+  id?: number;
+
   private unsubcribe$ = new Subject<void>();
 
   @ViewChild('contentContainer', { read: ViewContainerRef }) contentContainer: ViewContainerRef;
 
   private readonly mapper = new PostRepositoryMapper();
+  private readonly mapperPost = new PostParserJSONMapper();
 
   constructor(
-    private route: ActivatedRoute,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
     private ngbCalendar: NgbCalendar,
     private dateAdapter: NgbDateAdapter<string>,
     private cfr: ComponentFactoryResolver,
-    private injector: Injector) {
+    private injector: Injector,
+    private toastService: ToastService,
+    private postRepositoryService: PostRepositoryService) {
       this.postModel.publishDate = this.today;
       this.postModel.publishTime = toTimeFormat(new Date(), 'HH:mm');
   }
@@ -48,13 +64,6 @@ export class PostComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.route.params
-      .pipe(
-        takeUntil(this.unsubcribe$),
-      )
-      .subscribe(params => {
-        console.log(params); // {id: 123}
-      });
     this.PostTypeItems = [
       { id: PostType.COUPON, name: 'Coupon', icon: 'fa fa-columns', order: 4 },
       { id: PostType.IMAGE, name: 'Image', icon: 'fa fa-picture-o', order: 1  },
@@ -67,7 +76,44 @@ export class PostComponent implements OnInit, OnDestroy {
       if (b.order > a.order) { return -1; }
       return 0;
     });
-    this.loadComponent(this.postModel.postType);
+    this.loadData();
+  }
+
+  loadData() {
+    // retrieve the ID from the 'id'
+    this.id = +this.activatedRoute.snapshot.paramMap.get('id');
+    console.log(this.id);
+
+    if (this.id && this.id !== 0) {
+    // EDIT MODE
+    // fetch the post from the server
+    this.postRepositoryService.getById(this.id)
+      .pipe(takeUntil(this.unsubcribe$))
+      .subscribe(result => {
+        if (result.resultCode === 1 && result.resultData) {
+          this.title = 'Edit - Timeline post: ' + result.resultData.id;
+          // update the form with the post value
+          const post = this.mapperPost.mapTo(result.resultData);
+          this.postModel = this.mapper.mapFrom(post);
+          console.log('postModel', this.postModel);
+
+          this.loadComponent(this.postModel.postType, this.postModel);
+        }
+        if (result.errorDisplay && result.errorMessage) {
+          // notification error
+          console.log(result.errorMessage);
+          this.toastService.show(result.errorMessage, OptionsToast.danger);
+          // go back to posts view
+          this.router.navigate(['/post']);
+        }
+      });
+    } else {
+      // ADD NEW MODE
+      this.title = 'Create a Timeline post';
+      console.log(this.postModel);
+
+      this.loadComponent(this.postModel.postType);
+    }
   }
 
   ngOnDestroy() {
@@ -80,8 +126,16 @@ export class PostComponent implements OnInit, OnDestroy {
     this.postModel.postStatus = PostStatus.PUBLISHED;
     // mapTo
     const postResponse = this.mapper.mapTo(this.postModel);
+    const postParseJSON = this.mapperPost.mapFrom(postResponse);
     // call api
-    console.log(postResponse);
+    console.log('postParseJSON', postParseJSON);
+    if (this.id && this.id !== 0) {
+      // mode edit
+      this.onSaveOrUpdate(postParseJSON, this.id);
+    } else {
+      // mode create
+      this.onSaveOrUpdate(postParseJSON);
+    }
   }
 
   onSaveDraft(f: NgForm) {
@@ -89,11 +143,24 @@ export class PostComponent implements OnInit, OnDestroy {
     this.postModel.postStatus = PostStatus.DRAFTED;
     // mapTo
     const postResponse = this.mapper.mapTo(this.postModel);
+    const postParseJSON = this.mapperPost.mapFrom(postResponse);
+
     // call api
-    console.log(postResponse);
+    console.log(postParseJSON);
+    if (this.id && this.id !== 0) {
+      // mode edit
+      this.onSaveOrUpdate(postParseJSON, this.id);
+    } else {
+      // mode create
+      this.onSaveOrUpdate(postParseJSON);
+    }
   }
 
-  async loadComponent(contentType?: PostType) {
+  onCancel() {
+    this.router.navigateByUrl(`/post`);
+  }
+
+  async loadComponent(contentType: PostType, postModel?: PostDTOModel) {
     this.postModel.postType = contentType;
     switch (contentType) {
       case PostType.IMAGE:
@@ -104,7 +171,14 @@ export class PostComponent implements OnInit, OnDestroy {
         this.postModel.sticker = null;
         const { TimelineImageComponent } = await import('./components/timeline-image/timeline-image.component');
         const crImage = this.createComponentLazyload(TimelineImageComponent);
-        crImage.instance.getImages().pipe(takeUntil(this.unsubcribe$)).subscribe(data => this.postModel.images = data);
+        if (this.id && this.id !== 0) {
+          crImage.instance.images = postModel.images;
+        }
+        if (crImage.instance.UploadImage) {
+          crImage.instance.UploadImage
+          .pipe(takeUntil(this.unsubcribe$))
+          .subscribe(data => { this.postModel.images = data; });
+        }
         break;
       case PostType.VIDEO:
         this.postModel.coupon = null;
@@ -114,7 +188,14 @@ export class PostComponent implements OnInit, OnDestroy {
         this.postModel.sticker = null;
         const { TimelineVideoComponent } = await import('./components/timeline-video/timeline-video.component');
         const crVideo = this.createComponentLazyload(TimelineVideoComponent);
-        crVideo.instance.getVideo().pipe(takeUntil(this.unsubcribe$)).subscribe(data => this.postModel.video = data);
+        if (this.id && this.id !== 0) {
+          crVideo.instance.video = postModel.video;
+        }
+        if (crVideo.instance.UploadVideo) {
+          crVideo.instance.UploadVideo
+            .pipe(takeUntil(this.unsubcribe$))
+            .subscribe(data => this.postModel.video = data);
+        }
         break;
       case PostType.COUPON:
         this.postModel.video = null;
@@ -161,8 +242,42 @@ export class PostComponent implements OnInit, OnDestroy {
     return this.contentContainer.createComponent(componentFactory, null, this.injector);
   }
 
-  private onSaveOrUpdate(params: Post, id?: number) {
-
+  private onSaveOrUpdate(params: PostParseJSON, id?: number) {
+    if (!id || params.id === 0) {
+      // create mode
+      this.postRepositoryService.create(params)
+        .pipe(takeUntil(this.unsubcribe$))
+        .subscribe(data => {
+          if (data.resultCode === 1 && data.resultData) {
+            console.log(data);
+            this.toastService.show('Đã thêm mới time line thành công', OptionsToast.success);
+            // go back to posts view
+            this.router.navigate(['/post']);
+          }
+          if (data.errorDisplay && data.errorMessage) {
+            // notification error
+            console.log(data.errorMessage);
+            this.toastService.show(data.errorMessage, OptionsToast.danger);
+          }
+        });
+    } else {
+      // edit mode
+      this.postRepositoryService.update(id, params)
+        .pipe(takeUntil(this.unsubcribe$))
+        .subscribe(data => {
+          if (data.resultCode === 1 && data.resultData) {
+            console.log(data);
+            this.toastService.show('Cập nhật time line thành công', OptionsToast.success);
+            // go back to posts view
+            this.router.navigate(['/post']);
+          }
+          if (data.errorDisplay && data.errorMessage) {
+            // notification error
+            console.log(data.errorMessage);
+            this.toastService.show(data.errorMessage, OptionsToast.danger);
+          }
+        });
+    }
   }
 
 }

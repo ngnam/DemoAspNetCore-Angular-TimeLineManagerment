@@ -6,7 +6,7 @@ import { UploadMediaResponse } from '../api-models/upload-media-response';
 import { HttpApiService } from 'src/app/core/services/http-api.service';
 
 const router = {
-  uploadFile: 'UploadMedia/uploadfile'
+  uploadFile: 'api/UploadMedia/uploadfile'
 };
 
 @Injectable({ providedIn: 'root' })

@@ -23,7 +23,9 @@ import { GlobalErrorHandlerService } from './exceptions/global-error-handler.ser
     GlobalErrorHandlerService,
     { provide: ErrorHandler, useClass: GlobalErrorHandlerService }
   ],
-  declarations: [GlobalErrorComponent]
+  declarations: [
+    GlobalErrorComponent,
+  ]
 })
 export class CoreModule {
   constructor(@Optional() @SkipSelf() parentModule: CoreModule) {

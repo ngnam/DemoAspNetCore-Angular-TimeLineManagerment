@@ -1,5 +1,13 @@
 :host {
   .post-item {
     padding: 0;
+    margin-bottom: 10px;
+    .card-img, .card-img-bottom, .card-img-top {
+      max-width: 300px;
+      max-height: 300px;
+    }
+    .border-reset.card {
+      border: 0;
+    }
   }
 }

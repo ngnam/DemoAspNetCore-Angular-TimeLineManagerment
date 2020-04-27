@@ -14,8 +14,8 @@ namespace TimeLineManager.Data.Models
     public class Survey
     {
         public int Id { get; set; }
-        public long StartDate { get; set; }
-        public long EndDate { get; set; }
+        public double? StartDate { get; set; }
+        public double? EndDate { get; set; }
         public string Status { get; set; }
         public string Title { get; set; }
         public string Thumbnail { get; set; }
