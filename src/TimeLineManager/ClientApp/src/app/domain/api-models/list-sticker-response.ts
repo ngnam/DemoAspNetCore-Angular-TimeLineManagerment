@@ -1,4 +1,4 @@
-interface Sticker {
+export interface Sticker {
   id?: number;
   url: string;
 }

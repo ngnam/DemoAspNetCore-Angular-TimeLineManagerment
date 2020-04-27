@@ -3,7 +3,7 @@ enum Status {
   INACTIVE = 'INACTIVE',
 }
 
-interface Survey {
+export interface Survey {
   id: number;
   startDate: number;
   endDate: number;

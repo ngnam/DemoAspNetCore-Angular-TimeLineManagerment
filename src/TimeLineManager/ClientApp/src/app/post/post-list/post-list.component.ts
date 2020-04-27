@@ -38,7 +38,6 @@ export class PostListComponent implements OnInit, OnDestroy {
           } else {
             this.items = [];
           }
-          console.log(this.items);
         }
         if (data.errorDisplay && data.errorMessage) {
           // notification error

@@ -1,149 +1,178 @@
 <div *ngIf="item">
   <div [ngSwitch]="item.type" class="post-item">
+
     <div class="card" *ngSwitchCase="postType.IMAGE">
       <div class="card-deck">
-        <p *ngIf="item.images && item.images.length === 0; else loadImages">Post không có ảnh.</p>
+        <p *ngIf="item.images && item.images.length === 0; else loadImages">
+          Post không có ảnh.
+        </p>
         <ng-template #loadImages>
-          <div class="card border-reset" *ngFor="let image of item.images; let i = index;">
-            <img src="/photo/{{ image.thumb }}" class="card-img-top" alt="image.thumb" default="/assets/150.png">
+          <div class="card border-reset" *ngFor="let image of item.images; let i = index">
+            <img src="/photo/{{ image.thumb }}" class="card-img-top" alt="image.thumb" default="/assets/150.png" />
             <div class="card-body">
               <h5 class="card-title">Time line Image</h5>
               <p class="card-text">This is a image test</p>
-              <p class="card-text"><small class="text-muted">Last updated {{ item.createdAt * 1000 | datetimeSinceFormat }} ago.</small></p>
+              <p class="card-text">
+                <small class="text-muted">Last updated
+                  {{
+                      item.createdAt * 1000 | datetimeSinceFormat
+                    }}
+                  ago.</small>
+              </p>
             </div>
           </div>
         </ng-template>
       </div>
       <div class="card-footer">
-        <button class="text-muted btn btn-light mr-2" (click)="onEdit(item.id)"><i class="fa fa-pencil"></i></button>
-        <button class="text-muted btn btn-light" (click)="onDeleteItem(item.id)"><i class="fa fa-times"></i></button>
+        <button class="text-muted btn btn-light mr-2" (click)="onEdit(item.id)">
+          <i class="fa fa-pencil"></i>
+        </button>
+        <button class="text-muted btn btn-light" (click)="onDeleteItem(item.id)">
+          <i class="fa fa-times"></i>
+        </button>
       </div>
     </div>
+
     <!-- post type VIDEO -->
     <div class="card-deck" *ngSwitchCase="postType.VIDEO">
       <p *ngIf="!item.video; else loadVideo">Chưa có video.</p>
       <ng-template #loadVideo>
-      <div class="card">
-        <video width="320" height="240" controls preload="none" class="card-img-top">
-          <source src="/video/{{ item.video.thumb }}" type="video/mp4" />
-          <source src="/video/{{ item.video.thumb }}" type="video/ogg" />
-          Your browser does not support the video tag.
-        </video>
-        <div class="card-body">
-          <h5 class="card-title">Time line Video</h5>
-          <p class="card-text">This is a video test</p>
-          <p class="card-text"><small class="text-muted">Last updated {{ item.createdAt * 1000 | datetimeSinceFormat }} ago.</small></p>
+        <div class="card">
+          <video width="320" height="240" controls preload="none" class="card-img-top">
+            <source src="/video/{{ item.video.thumb }}" type="video/mp4" />
+            <source src="/video/{{ item.video.thumb }}" type="video/ogg" />
+            Your browser does not support the video tag.
+          </video>
+          <div class="card-body">
+            <h5 class="card-title">Time line Video</h5>
+            <p class="card-text">This is a video test</p>
+            <p class="card-text">
+              <small class="text-muted">Last updated
+                {{ item.createdAt * 1000 | datetimeSinceFormat }} ago.</small>
+            </p>
+          </div>
+          <div class="card-footer">
+            <button class="text-muted btn btn-light mr-2" (click)="onEdit(item.id)">
+              <i class="fa fa-pencil"></i>
+            </button>
+            <button class="text-muted btn btn-light" (click)="onDeleteItem(item.id)">
+              <i class="fa fa-times"></i>
+            </button>
+          </div>
         </div>
-        <div class="card-footer">
-          <button class="text-muted btn btn-light mr-2" (click)="onEdit(item.id)"><i class="fa fa-pencil"></i></button>
-          <button class="text-muted btn btn-light" (click)="onDeleteItem(item.id)"><i class="fa fa-times"></i></button>
-        </div>
-      </div>
       </ng-template>
     </div>
 
     <!-- post type COUPON -->
-    <div class="row no-gutters" *ngSwitchCase="postType.COUPON">
-      <div class="col-md-4">
-        <img
-          [src]="item?.coupon?.thumbnail"
-          class="card-img"
-          alt="{{ item?.coupon.title }}"
-          default="/assets/150.png"
-        />
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title">{{ item?.coupon?.title }}</h5>
-          <p class="card-text">{{ item?.coupon?.status }}</p>
-          <p class="card-text">
-            <small class="text-muted"
-              >Start Date:
-              {{ item?.coupon?.startDate * 1000 | datetimeSinceFormat }}</small
-            >
-            <small class="text-muted"
-              >End Date: {{ item?.coupon?.endDate * 1000 | datetimeSinceFormat }}</small
-            >
-          </p>
+    <div class="card-deck" *ngSwitchCase="postType.COUPON">
+      <div class="card">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img [src]="item?.coupon?.thumbnail" class="card-img" alt="{{ item?.coupon.title }}"
+              default="/assets/150.png" />
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">{{ item?.coupon.title }}</h5>
+              <p class="card-text"><small class="text-muted">Validity period: {{ item?.coupon.startDate * 1000 | date:'MM/dd/yyyy HH:mm' }}</small></p>
+            </div>
+          </div>
         </div>
         <div class="card-footer">
-          <button class="text-muted btn btn-light mr-2" (click)="onEdit(item.id)"><i class="fa fa-pencil"></i></button>
-          <button class="text-muted btn btn-light" (click)="onDeleteItem(item.id)"><i class="fa fa-times"></i></button>
+          <button class="text-muted btn btn-light mr-2" (click)="onEdit(item.id)">
+            <i class="fa fa-pencil"></i>
+          </button>
+          <button class="text-muted btn btn-light" (click)="onDeleteItem(item.id)">
+            <i class="fa fa-times"></i>
+          </button>
         </div>
       </div>
     </div>
 
-    <div class="row no-gutters" *ngSwitchCase="postType.LINK">
-      <div class="col-md-4">
-        <img
-          [src]="item?.link?.thumbnail"
-          class="card-img"
-          alt="{{ item?.link?.title }}"
-          default="/assets/150.png"
-        />
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title">{{ item?.link?.title }}</h5>
-          <p class="card-text">{{ item?.link?.desc }}</p>
-          <p class="card-text">
-            <a href="{{ item?.link?.url }}" target="_blank">Read more.</a>
-          </p>
+    <div class="card-deck" *ngSwitchCase="postType.LINK">
+      <div class="card">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img [src]="item?.link?.thumbnail" class="card-img" alt="{{ item?.link?.title }}"
+              default="/assets/150.png" />
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">{{ item?.link?.title }}</h5>
+              <p class="card-text">{{ item?.link?.desc }}</p>
+              <p class="card-text">
+                <small class="text-muted"><a href="{{ item?.link?.url }}" target="_blank">Read more.</a></small>
+              </p>
+            </div>
+          </div>
         </div>
         <div class="card-footer">
-          <button class="text-muted btn btn-light mr-2" (click)="onEdit(item.id)"><i class="fa fa-pencil"></i></button>
-          <button class="text-muted btn btn-light" (click)="onDeleteItem(item.id)"><i class="fa fa-times"></i></button>
+          <button class="text-muted btn btn-light mr-2" (click)="onEdit(item.id)">
+            <i class="fa fa-pencil"></i>
+          </button>
+          <button class="text-muted btn btn-light" (click)="onDeleteItem(item.id)">
+            <i class="fa fa-times"></i>
+          </button>
         </div>
       </div>
     </div>
 
     <div class="card-deck" *ngSwitchCase="postType.STICKER">
       <div class="card">
-        <img
-          [src]="item?.sticker.url"
-          class="card-img-top"
-          alt="{{ item?.link?.title }}"
-          default="/assets/150.png"
-        />
+        <img [src]="item?.sticker.url" class="card-img-top" alt="{{ item?.link?.title }}" default="/assets/150.png" />
         <div class="card-body">
-          <h5 class="card-title">Time line Video</h5>
-          <p class="card-text">This is a video test</p>
-          <p class="card-text"><small class="text-muted">Last updated {{ item.createdAt * 1000 | datetimeSinceFormat }} ago.</small></p>
+          <h5 class="card-title">Time line Sticker</h5>
+          <p class="card-text">This is a sticker test</p>
+          <p class="card-text">
+            <small class="text-muted">Last updated
+              {{ item.createdAt * 1000 | datetimeSinceFormat }} ago.</small>
+          </p>
         </div>
         <div class="card-footer">
-          <button class="text-muted btn btn-light mr-2" (click)="onEdit(item.id)"><i class="fa fa-pencil"></i></button>
-          <button class="text-muted btn btn-light" (click)="onDeleteItem(item.id)"><i class="fa fa-times"></i></button>
+          <button class="text-muted btn btn-light mr-2" (click)="onEdit(item.id)">
+            <i class="fa fa-pencil"></i>
+          </button>
+          <button class="text-muted btn btn-light" (click)="onDeleteItem(item.id)">
+            <i class="fa fa-times"></i>
+          </button>
         </div>
       </div>
     </div>
 
-    <div class="row no-gutters" *ngSwitchCase="postType.SURVEY">
-      <div class="col-md-4">
-        <img
-          [src]="item?.survey.thumbnail"
-          class="card-img"
-          alt="{{ item?.survey.title }}"
-          default="/assets/150.png"
-        />
-      </div>
-      <div class="col-md-8">
-        <div class="card-body">
-          <h5 class="card-title">{{ item?.survey.title }}</h5>
-          <p class="card-text">{{ item?.survey.status }}</p>
-          <p class="card-text">
-            <small class="text-muted">Start Date:
-              {{ item?.survey.startDate | datetimeSinceFormat }}</small
-            >
-            <small class="text-muted"
-              >End Date: {{ item?.survey.endDate | datetimeSinceFormat }}</small
-            >
-          </p>
+    <div class="card-deck" *ngSwitchCase="postType.SURVEY">
+      <div class="card">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img [src]="item?.survey.thumbnail" class="card-img" alt="{{ item?.survey.title }}"
+              default="/assets/150.png" />
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">
+                {{ item?.survey.status | titlecase }}
+              </h5>
+              <p class="card-text text-success">
+                {{ item?.survey.title | titlecase }}
+              </p>
+              <p class="card-text">
+                Survey period:
+                {{ item?.survey.startDate * 1000 | date: "MM/dd/yyyy HH:mm" }}
+                -
+                {{ item?.survey.endDate * 1000 | date: "MM/dd/yyyy HH:mm" }}
+              </p>
+            </div>
+          </div>
         </div>
         <div class="card-footer">
-          <button class="text-muted btn btn-light mr-2" (click)="onEdit(item.id)"><i class="fa fa-pencil"></i></button>
-          <button class="text-muted btn btn-light" (click)="onDeleteItem(item.id)"><i class="fa fa-times"></i></button>
+          <button class="text-muted btn btn-light mr-2" (click)="onEdit(item.id)">
+            <i class="fa fa-pencil"></i>
+          </button>
+          <button class="text-muted btn btn-light" (click)="onDeleteItem(item.id)">
+            <i class="fa fa-times"></i>
+          </button>
         </div>
       </div>
     </div>
+
   </div>
 </div>

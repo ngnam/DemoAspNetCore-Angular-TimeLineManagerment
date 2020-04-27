@@ -38,6 +38,7 @@ export class PostComponent implements OnInit, OnDestroy {
   // It's NULL when we're adding a new post,
   // and not NULL when we're editing an existing one.
   id?: number;
+  postModelClone: PostDTOModel;
 
   private unsubcribe$ = new Subject<void>();
 
@@ -82,8 +83,6 @@ export class PostComponent implements OnInit, OnDestroy {
   loadData() {
     // retrieve the ID from the 'id'
     this.id = +this.activatedRoute.snapshot.paramMap.get('id');
-    console.log(this.id);
-
     if (this.id && this.id !== 0) {
     // EDIT MODE
     // fetch the post from the server
@@ -95,8 +94,7 @@ export class PostComponent implements OnInit, OnDestroy {
           // update the form with the post value
           const post = this.mapperPost.mapTo(result.resultData);
           this.postModel = this.mapper.mapFrom(post);
-          console.log('postModel', this.postModel);
-
+          this.postModelClone = this.postModel;
           this.loadComponent(this.postModel.postType, this.postModel);
         }
         if (result.errorDisplay && result.errorMessage) {
@@ -171,7 +169,7 @@ export class PostComponent implements OnInit, OnDestroy {
         this.postModel.sticker = null;
         const { TimelineImageComponent } = await import('./components/timeline-image/timeline-image.component');
         const crImage = this.createComponentLazyload(TimelineImageComponent);
-        if (this.id && this.id !== 0) {
+        if (this.id && this.id !== 0 && crImage.instance.images && postModel && postModel.images) {
           crImage.instance.images = postModel.images;
         }
         if (crImage.instance.UploadImage) {
@@ -188,7 +186,7 @@ export class PostComponent implements OnInit, OnDestroy {
         this.postModel.sticker = null;
         const { TimelineVideoComponent } = await import('./components/timeline-video/timeline-video.component');
         const crVideo = this.createComponentLazyload(TimelineVideoComponent);
-        if (this.id && this.id !== 0) {
+        if (this.id && this.id !== 0 && crVideo.instance.video && postModel && postModel.video) {
           crVideo.instance.video = postModel.video;
         }
         if (crVideo.instance.UploadVideo) {
@@ -205,6 +203,14 @@ export class PostComponent implements OnInit, OnDestroy {
         this.postModel.sticker = null;
         const { TimelineCouponComponent } = await import('./components/timeline-coupon/timeline-coupon.component');
         const crCoupon = this.createComponentLazyload(TimelineCouponComponent);
+        if (this.id && this.id !== 0 && crCoupon.instance.coupon && postModel && postModel.coupon) {
+          crCoupon.instance.coupon = postModel.coupon;
+        }
+        if (crCoupon.instance.SelectItem) {
+          crCoupon.instance.SelectItem
+            .pipe(takeUntil(this.unsubcribe$))
+            .subscribe(data => this.postModel.coupon = data);
+        }
         break;
       case PostType.LINK:
         this.postModel.video = null;
@@ -214,6 +220,14 @@ export class PostComponent implements OnInit, OnDestroy {
         this.postModel.sticker = null;
         const { TimelineLinkComponent } = await import('./components/timeline-link/timeline-link.component');
         const crLink = this.createComponentLazyload(TimelineLinkComponent);
+        if (this.id && this.id !== 0 && crLink.instance.link && postModel && postModel.link) {
+          crLink.instance.link = postModel.link;
+        }
+        if (crLink.instance.SelectItem) {
+          crLink.instance.SelectItem
+            .pipe(takeUntil(this.unsubcribe$))
+            .subscribe(data => this.postModel.link = data);
+        }
         break;
       case PostType.STICKER:
         this.postModel.video = null;
@@ -223,6 +237,14 @@ export class PostComponent implements OnInit, OnDestroy {
         this.postModel.link = null;
         const { TimelineStickerComponent } = await import('./components/timeline-sticker/timeline-sticker.component');
         const crSticker = this.createComponentLazyload(TimelineStickerComponent);
+        if (this.id && this.id !== 0 && crSticker.instance.sticker && postModel && postModel.sticker) {
+          crSticker.instance.sticker = postModel.sticker;
+        }
+        if (crSticker.instance.SelectItem) {
+          crSticker.instance.SelectItem
+            .pipe(takeUntil(this.unsubcribe$))
+            .subscribe(data => this.postModel.sticker = data);
+        }
         break;
       case PostType.SURVEY:
         this.postModel.video = null;
@@ -232,6 +254,14 @@ export class PostComponent implements OnInit, OnDestroy {
         this.postModel.link = null;
         const { TimelineSurveyComponent } = await import('./components/timeline-survey/timeline-survey.component');
         const crSurvey = this.createComponentLazyload(TimelineSurveyComponent);
+        if (this.id && this.id !== 0 && crSurvey.instance.survey && postModel && postModel.survey) {
+          crSurvey.instance.survey = postModel.survey;
+        }
+        if (crSurvey.instance.SelectItem) {
+          crSurvey.instance.SelectItem
+            .pipe(takeUntil(this.unsubcribe$))
+            .subscribe(data => this.postModel.survey = data);
+        }
       break;
     }
   }

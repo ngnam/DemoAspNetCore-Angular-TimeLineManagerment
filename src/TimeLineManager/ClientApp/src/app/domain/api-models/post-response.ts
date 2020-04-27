@@ -24,7 +24,7 @@ interface Sticker {
 }
 
 interface Coupon {
-  id?: number;
+  id: number;
   startDate: number;
   endDate: number;
   status: Status;
@@ -33,7 +33,7 @@ interface Coupon {
 }
 
 interface Link {
-  id?: number;
+  id: number;
   url: string; // https://line.me
   title: string; // "LINE : Free Calls & Messages",
   desc: string; // "LINE is a new communication app which allows you to
@@ -42,7 +42,7 @@ interface Link {
 }
 
 interface Survey {
-  id?: number;
+  id: number;
   startDate: number;
   endDate: number;
   status: Status;

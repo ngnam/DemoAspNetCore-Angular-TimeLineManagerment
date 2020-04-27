@@ -6,7 +6,7 @@ import { ListSurveyResponse } from '../api-models/list-survey-response';
 import { HttpParams } from '@angular/common/http';
 
 const router = {
-  getAll: 'survey/getAll'
+  getAll: 'api/Survey'
 };
 
 @Injectable({ providedIn: 'root' })

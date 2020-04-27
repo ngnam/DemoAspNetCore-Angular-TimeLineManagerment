@@ -1,16 +1,32 @@
-<div class="timeline-item card mb-3">
-  <div class="row no-gutters">
+<div class="timeline-item card">
+  <div class="row no-gutters" *ngIf="!link; else renderItemTmp">
     <div class="col text-center p-3">
       <p class="font-weight-bold text-success">Enter Link URL</p>
-      <button class="btn btn-outline-secondary border border-light" type="button">
+      <button class="btn btn-outline-secondary border border-light" type="button" (click)="openPopUp()">
         <i class="fa fa-link fa-2x"></i>
       </button>
     </div>
-    <!-- render item  -->
-
   </div>
-</div>
 
-<div class="helper-container">
-  <small><span class="text-muted">[Example]: https://google.com.vn.</span></small>
+  <!-- render item  -->
+  <ng-template #renderItemTmp>
+    <div class="card border border-light timeline-itembody">
+      <div class="row no-gutters">
+        <span class="close" aria-label="Close" (click)="removeItem(link)">
+          &times;
+        </span>
+        <div class="col-md-4">
+          <img [src]="link.thumbnail" class="card-img" [alt]="link.title" default="/assets/150.png">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{ link.title }}</h5>
+            <p class="card-te">{{ link.desc }}</p>
+            <p class="card-text"><small class="text-muted"><a [href]="link.url" target="_blank">{{ link.url }}</a></small></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
 </div>

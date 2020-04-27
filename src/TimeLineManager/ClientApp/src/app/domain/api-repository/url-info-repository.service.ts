@@ -6,16 +6,14 @@ import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 
 const router = {
-  getInfoLink: 'api/UrlInfo/getInfoLink'
+  getInfoLink: 'api/UrlInfo/GetInFoLink'
 };
 
 @Injectable({ providedIn: 'root' })
 
 export class UrlInfoRepositoryService extends UrlInfoRepository<UrlInformationResponse> {
   getInfoLink(url: string): Observable<UrlInformationResponse> {
-    const params: HttpParams = new HttpParams();
-    params.append('url', url);
-    return this.httpClient.get(router.getInfoLink, params);
+    return this.httpClient.get(`${router.getInfoLink}?url=${url}`);
   }
 
   constructor(private readonly httpClient: HttpApiService) {

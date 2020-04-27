@@ -1,0 +1,17 @@
+:host {
+  .timeline-itembody {
+    position: relative;
+    span.close {
+      position: absolute;
+      right: 0;
+      top: 0;
+      cursor: pointer;
+      background: transparent;
+      width: 25px;
+      height: 25px;
+      text-align: center;
+      z-index: 9999;
+    };
+  }
+
+}

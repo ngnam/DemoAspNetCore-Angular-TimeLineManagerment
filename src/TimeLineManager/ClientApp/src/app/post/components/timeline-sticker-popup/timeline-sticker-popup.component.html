@@ -1,1 +1,56 @@
-<p>timeline-sticker-popup works!</p>
+<div class="modal-header">
+  <h6 class="modal-title">{{ title }}</h6>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+
+  <div class="card border-light mb-3 card-container-custom">
+    <div class="card-header">
+      <ul class="list-group list-group-horizontal list-sticker-item">
+        <li class="list-group-item">
+          <i class="fa fa-clock-o"></i>
+        </li>
+        <li class="list-group-item actived">
+          <img alt="" src="/sticker/18_key.png" />
+        </li>
+        <li class="list-group-item">
+          <img alt="" src="/sticker/19_key.png" />
+        </li>
+        <li class="list-group-item">
+          <img alt="" src="/sticker/20_key.png" />
+        </li>
+        <li class="list-group-item">
+          <img alt="" src="/sticker/21_key.png" />
+        </li>
+        <li class="list-group-item">
+          <img alt="" src="/sticker/22_key.png" />
+        </li>
+        <li class="list-group-item">
+          <img alt="" src="/sticker/23_key.png" />
+        </li>
+        <li class="list-group-item">
+          <img alt="" src="/sticker/24_key.png" />
+        </li>
+      </ul>
+    </div>
+    <div class="card-body">
+      <p *ngIf="!items; else loadStickerTmp">Loading...</p>
+      <ng-template #loadStickerTmp>
+        <div class="row">
+          <div class="col-3 mb-2" *ngFor="let item of items" (click)="selectItem(item)">
+            <img class="img-thumbnail" alt="" [src]="item.url" default="/sticker/18_key.png" />
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <div class="modal-footer justify-content-center">
+    <button type="button" class="btn btn-outline-secondary" (click)="activeModal.dismiss('Cancel click')">Cancel</button>
+  </div>
+
+</div>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

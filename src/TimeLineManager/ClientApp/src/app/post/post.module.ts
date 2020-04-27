@@ -18,6 +18,7 @@ import { TimelineStickerPopupComponent } from './components/timeline-sticker-pop
 import { TimelineSurveyComponent } from './components/timeline-survey/timeline-survey.component';
 import { TimelineVideoComponent } from './components/timeline-video/timeline-video.component';
 import { TimelineVideoPopupComponent } from './components/timeline-video-popup/timeline-video-popup.component';
+import { TimelineSurveyPopupComponent } from './components/timeline-survey-popup/timeline-survey-popup.component';
 
 const ENTRY_COMPONENTS = [
   TimelineImageComponent,
@@ -29,7 +30,7 @@ const ENTRY_COMPONENTS = [
   TimelineStickerComponent,
   TimelineStickerPopupComponent,
   TimelineSurveyComponent,
-  TimelineStickerPopupComponent,
+  TimelineSurveyPopupComponent,
   TimelineVideoComponent,
   TimelineVideoPopupComponent,
 ];

@@ -1,12 +1,31 @@
-<div class="timeline-item card mb-3">
-  <div class="row no-gutters">
+<div class="timeline-item card">
+  <div class="row no-gutters" *ngIf="!coupon; else renderItemTmp">
     <div class="col text-center p-3">
-      <p class="font-weight-bold text-success">Select coupon</p>
-      <button class="btn btn-outline-secondary border border-light" type="button">
+      <p class="font-weight-bold text-success">Select a coupon</p>
+      <button class="btn btn-outline-secondary border border-light" type="button" (click)="openPopUp()">
         <i class="fa fa-columns fa-2x"></i>
       </button>
     </div>
-    <!-- render item  -->
-
   </div>
+
+  <!-- render item  -->
+  <ng-template #renderItemTmp>
+    <div class="card border border-light timeline-itembody">
+      <div class="row no-gutters">
+        <span class="close" aria-label="Close" (click)="removeItem(coupon)">
+          &times;
+        </span>
+        <div class="col-md-4">
+          <img [src]="coupon.thumbnail" class="card-img" [alt]="coupon.title" default="/assets/150.png">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{ coupon.title }}</h5>
+            <p class="card-text"><small class="text-muted">Validity period: {{ coupon.startDate * 1000 | date:'MM/dd/yyyy HH:mm' }}</small></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
 </div>
