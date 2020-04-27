@@ -13,6 +13,7 @@ namespace TimeLineManager.Data
     /// <typeparam name="T"></typeparam>
     public class ApiResult<T>
     {
+        #region Private constructor 
         private ApiResult(
                 List<T> list,
                 int count,
@@ -24,6 +25,7 @@ namespace TimeLineManager.Data
             PageSize = pageSize;
             Total = (int)Math.Ceiling(count / (double)pageSize);
         }
+        #endregion
 
         #region Methods
         /// <summary>
