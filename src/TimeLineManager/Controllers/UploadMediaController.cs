@@ -35,7 +35,14 @@ namespace TimeLineManager.Controllers
             {
                 // Get file Upload from HttpRequest FormData
                 FileModel postedFile = Request.File();
-
+                // Check has file
+                if (postedFile == null)
+                {
+                    result.ErrorDisplay = true;
+                    result.ResultCode = 0;
+                    result.ErrorMessage = "File không tồn tại, Vui lòng chọn lại file!";
+                    return result;
+                }
                 // validate File upload
                 // FileSize, Extension, Duration: Video
                 if (postedFile.Name == MediaType.PHOTO.ToLower())
@@ -100,8 +107,9 @@ namespace TimeLineManager.Controllers
                 return new ApiResponse<Media>(1, media, false, null);
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError("UploadFile---", ex);
                 result.ResultCode = 0;
                 result.ErrorDisplay = true;
                 result.ErrorMessage = "Server đang gặp sự cố, vui lòng thử lại sau!";

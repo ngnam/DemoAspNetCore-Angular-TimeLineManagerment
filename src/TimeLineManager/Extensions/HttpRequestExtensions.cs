@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using TimeLineManager.Data.Models;
-using System.Drawing;
 
 namespace TimeLineManager.Extensions
 {

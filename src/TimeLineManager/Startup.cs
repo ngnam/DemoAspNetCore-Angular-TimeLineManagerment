@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TimeLineManager.Data;
 
 namespace TimeLineManager
 {
@@ -20,11 +22,27 @@ namespace TimeLineManager
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+               .AddJsonOptions(options =>
+               {
+                   // set this option to TRUE to indent the JSON output
+                   options.JsonSerializerOptions.WriteIndented = true;
+                   // options.JsonSerializerOptions.PropertyNamingPolicy = null;
+               });
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
+            });
+
+            // Add EntityFramework support for SqlLite3.
+            //services.AddEntityFrameworkSqlite();
+
+            // Add DatabaseDbContext.
+            services.AddDbContext<DatabaseDbContext>((options) =>
+            {
+                options.UseSqlite(Configuration.GetConnectionString("DatabaseDbContext"));
+                //options.UseInternalServiceProvider(sp);
             });
         }
 
