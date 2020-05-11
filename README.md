@@ -54,3 +54,9 @@ Please contact to me:
 
 ## ISSUES for entityframework:
 * https://github.com/dotnet/EntityFramework.Docs/issues/1371
+
+# Donate
+If you find this project useful — or just feeling generous, consider buying me a beer or a coffee. Cheers! :beers: :coffee:
+|               |               |
+| ------------- |:-------------:|
+|   <a href="https://www.paypal.me/ngnam39"><img src="https://github.com/ngnam/Resources/blob/master/donate_paypal.svg" height="40"></a>   | [![BMC](https://github.com/ngnam/Resources/blob/master/donate_coffee.png)](https://www.buymeacoffee.com/ngnam) |
