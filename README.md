@@ -46,11 +46,7 @@ ng g c post/timeline-link-popup --style=scss --skip-import --skip-tests
 
 ## NEW ISSUES:
 
-Please contact to me:
 
-* Nguyen Van Nam
-* Phone: [0349801673](tel:0349801673)
-* Email: [nguyenvannam0411@gmail.com](mailto:nguyenvannam0411@gmail.com)
 
 ## ISSUES for entityframework:
 * https://github.com/dotnet/EntityFramework.Docs/issues/1371
